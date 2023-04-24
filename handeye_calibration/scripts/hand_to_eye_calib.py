@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 # coding:utf-8
 # !/usr/bin/env python3
 
@@ -197,7 +195,3 @@ if __name__ == '__main__':
         except(tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
             rospy.loginfo("Waiting for aucro data!")
             continue
->>>>>>> c66f25db9ff25bb264c64acb023486c5ee7caca1
-=======
-
->>>>>>> a5a55e2f0c617e123ee7aa1f0cf3db3b777b6a41
