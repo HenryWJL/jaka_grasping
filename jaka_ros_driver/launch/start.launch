@@ -1,0 +1,48 @@
+<launch>
+  <param name="robot_ip" value="192.168.1.100" type="str" />
+  <node pkg="jaka_ros_driver" type="connect_robot" name="connect_robot" output="screen" />
+  
+
+<!--group ns="l_arm_controller">
+    <param name="robot_ip" value="192.168.1.109" type="str"/>
+    <node pkg="jaka_ros_driver" type="connect_robot" name="connect_robot" output="screen">
+      <remap from="/robot_driver/move_line" to="/l_arm_controller/robot_driver/move_line"/>
+      <remap from="/robot_driver/move_joint" to="/l_arm_controller/robot_driver/move_joint"/>
+      <remap from="/robot_driver/move_jog" to="/l_arm_controller/robot_driver/move_jog"/>
+      <remap from="/robot_driver/servo_line" to="/l_arm_controller/robot_driver/servo_line"/>
+      <remap from="/robot_driver/stop_move" to="/l_arm_controller/robot_driver/stop_move"/>
+      <remap from="/robot_driver/tool_point" to="/l_arm_controller/robot_driver/tool_point"/>
+      <remap from="/robot_driver/joint_states" to="/l_arm_controller/robot_driver/joint_states"/>
+      <remap from="/robot_driver/robot_states" to="/l_arm_controller/robot_driver/robot_states"/>
+      <remap from="/robot_driver/set_user_frame" to="/l_arm_controller/robot_driver/set_user_frame"/>
+      <remap from="/robot_driver/set_tcp" to="/l_arm_controller/robot_driver/set_tcp"/>
+      <remap from="/robot_driver/teach_drag" to="/l_arm_controller/robot_driver/teach_drag"/>
+      <remap from="/robot_driver/servo_ctr" to="/l_arm_controller/robot_driver/servo_ctr"/>
+      <remap from="/robot_driver/set_payload" to="/l_arm_controller/robot_driver/set_payload"/>
+      <remap from="/robot_driver/clear_err" to="/l_arm_controller/robot_driver/clear_err"/>
+      <remap from="/robot_driver/set_collision" to="/l_arm_controller/robot_driver/set_collision"/>
+    </node>
+  </group>
+
+  <group ns="r_arm_controller">
+    <param name="robot_ip" value="192.168.1.101" type="str"/>
+    <node pkg="jaka_ros_driver" type="connect_robot" name="connect_robot" output="screen">
+      <remap from="/robot_driver/move_line" to="/r_arm_controller/robot_driver/move_line"/>
+      <remap from="/robot_driver/move_joint" to="/r_arm_controller/robot_driver/move_joint"/>
+      <remap from="/robot_driver/move_jog" to="/r_arm_controller/robot_driver/move_jog"/>
+      <remap from="/robot_driver/servo_line" to="/r_arm_controller/robot_driver/servo_line"/>
+      <remap from="/robot_driver/stop_move" to="/r_arm_controller/robot_driver/stop_move"/>
+      <remap from="/robot_driver/tool_point" to="/r_arm_controller/robot_driver/tool_point"/>
+      <remap from="/robot_driver/joint_states" to="/r_arm_controller/robot_driver/joint_states"/>
+      <remap from="/robot_driver/robot_states" to="/r_arm_controller/robot_driver/robot_states"/>
+      <remap from="/robot_driver/set_user_frame" to="/r_arm_controller/robot_driver/set_user_frame"/>
+      <remap from="/robot_driver/set_tcp" to="/r_arm_controller/robot_driver/set_tcp"/>
+      <remap from="/robot_driver/teach_drag" to="/r_arm_controller/robot_driver/teach_drag"/>
+      <remap from="/robot_driver/servo_ctr" to="/r_arm_controller/robot_driver/servo_ctr"/>
+      <remap from="/robot_driver/set_payload" to="/r_arm_controller/robot_driver/set_payload"/>
+      <remap from="/robot_driver/clear_err" to="/r_arm_controller/robot_driver/clear_err"/>
+      <remap from="/robot_driver/set_collision" to="/r_arm_controller/robot_driver/set_collision"/>
+    </node>
+  </group-->
+
+</launch>
