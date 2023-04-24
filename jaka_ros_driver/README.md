@@ -1,6 +1,6 @@
 ## ROS Wrapper for JAKA MiniCobo
 
-This is the package for using JAKA MiniCobo with ROS. You can directly clone the repository or download this package from [here](https://www.jaka.com/jszl.html).
+This is the package for using JAKA MiniCobo with ROS. You can directly clone the repository to your workspace or download this package from [here](https://www.jaka.com/jszl.html).
 
 ## Usage Instructions
 
