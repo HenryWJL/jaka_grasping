@@ -6,7 +6,7 @@ These are the packages for performing visual grasp based on JAKA MiniCobo and In
 
 ### Step 1: Download Intel Realsense SDK and ROS package
 - [librealsense](https://github.com/IntelRealSense/librealsense)
-- [realsense-ros](https://github.com/IntelRealSense/realsense-ros)
+- [realsense-ros](https://github.com/IntelRealSense/realsense-ros/tree/ros1-legacy)
 
 ### Step 2: Download ArUco ROS package 
 - [aruco_ros](https://github.com/pal-robotics/aruco_ros)
