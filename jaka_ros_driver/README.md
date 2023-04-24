@@ -30,4 +30,4 @@ After running the above command, the following topics will be available:
 - /robot_driver/clear_err
 - /robot_driver/set_collision
 
-For more information, please see [here]().
+For more information, please see [here](https://github.com/HenryWJL/RGB-D_Camera_Based_Robotic_Grasping_Project/blob/main/Doc/jaka_driver_interface.pdf).
