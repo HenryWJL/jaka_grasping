@@ -4,13 +4,13 @@ These are the packages for performing visual grasp based on JAKA MiniCobo and In
 
 ## Installation Instructions
 
-- Step 1: Download ArUco 
+- Step 1: Download **ArUco** 
 ```bash
 cd ~/Your Workspace/src
 git clone -b melodic-devel https://github.com/pal-robotics/aruco_ros.git
 ```
 
-- Step 2: Download find-object-2d package
+- Step 2: Download **find-object-2d** package
 ```bash
 sudo apt-get install ros-<distro>-find-object-2d
 ```
