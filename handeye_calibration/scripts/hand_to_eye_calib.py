@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#! /usr/bin/env python3
+# ! /usr/bin/env python3
 
 import rospy
 import numpy as np
@@ -8,6 +8,7 @@ import transforms3d as tfs
 import tf
 from geometry_msgs.msg import TwistStamped
 import time
+import yaml
 
 tcp_pose = TwistStamped()
 
@@ -28,7 +29,7 @@ def get_gripper2base_mat(pose):
 def get_target2cam_mat():  # using tf transform
     listen = tf.TransformListener()
     tran, rot = listen.lookupTransform('/camera_color_optical_frame', '/camera_link', rospy.Time(0))
-    tran = np.array(tran)                                      # '/camera_link' is the frame of aucro
+    tran = np.array(tran)  # '/camera_link' is the frame of ArUco
     rot = np.array(rot)
     return tran, rot
 
@@ -81,8 +82,9 @@ if __name__ == '__main__':
                     print("No result to save!")
 
                 else:
-                    with open(f'{path}/camera_to_base_matrix.txt', 'w') as f:  # Remember to revise the save path
-                        f.write(f'{cam2base}')
+                    cam2base = cam2base.tolist()  # change np.array to list so that it can be stored in .yaml file
+                    with open('~/handeye_calibration/yaml/camera_to_base_matrix.yaml', 'w', encoding='utf-8') as f:
+                        yaml.dump(data=cam2base, stream=f)
 
             else:
                 print("Invalid option!")
@@ -94,5 +96,5 @@ if __name__ == '__main__':
             continue
 
         except(tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-            rospy.loginfo("Waiting for aucro data!")
+            rospy.loginfo("Waiting for ArUco data!")
             continue
