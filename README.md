@@ -12,7 +12,7 @@ git clone -b melodic-devel https://github.com/pal-robotics/aruco_ros.git
 
 - Step 2: Download **find-object-2d** package
 ```bash
-sudo apt-get install ros-<distro>-find-object-2d
+git clone https://github.com/introlab/find-object.git src/find_object_2d
 ```
 
 - Step 3: Clone this repository to your workspace
