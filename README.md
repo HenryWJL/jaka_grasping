@@ -16,16 +16,14 @@ These are the packages for performing visual grasp based on JAKA MiniCobo and In
 
 ### Step 4: Clone this repository to your workspace
 ```bash
+cd ~/Your Worksapce/src
 git clone https://github.com/HenryWJL/jaka_grasping.git
 ```
 
-### Step 5: Run **catkin_make**
+### Step 5: Make and source
 ```bash
 cd ..
 catkin_make
-```
-
-### Step 6: Source **setup.bash**
-```bash
 source devel/setup.bash
 ```
+
