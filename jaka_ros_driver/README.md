@@ -2,6 +2,9 @@
 
 This is the package for using JAKA MiniCobo with ROS.
 
-## Installation Instructions
+## Usage Instructions
 
-- **Step 1: **
+### Start the robot node
+
+To start the robot node in ROS:
+```
