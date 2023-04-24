@@ -16,7 +16,17 @@ sudo apt-get install ros-<distro>-find-object-2d
 ```
 
 - Step 3: Clone this repository to your workspace
-
 ```bash
 git clone https://github.com/HenryWJL/jaka_grasping.git
+```
+
+- Step 4: Run **catkin_make**
+```bash
+cd ..
+catkin_make
+```
+
+- Step 5: Source **setup.bash**
+```bash
+source devel/setup.bash
 ```
