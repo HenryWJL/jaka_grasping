@@ -26,7 +26,7 @@ def init():
         print("Failed to get the original pose!")
 
 
-def move_to_grasp():
+def grasp_and_place():
     ret = robot.linear_move(target_pose, 0, True, 1)
     if ret[0] == 0:
 
@@ -56,14 +56,6 @@ def move_to_grasp():
     time.sleep(3)
 
 
-def move_to_place():
-    pass
-
-
-def reset():
-    pass
-
-
 def callback(pose):
     global target_pose
     target_pose = [pose.twist.linear.x, pose.twist.linear.y, pose.twist.linear.z,
@@ -82,7 +74,7 @@ if __name__ == '__main__':
                     print("No target position is available!")
 
                 else:
-                    move_to_grasp()
+                    grasp_and_place()
 
             elif command == 'e':
                 robot.disable_robot()
