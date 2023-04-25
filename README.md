@@ -20,7 +20,7 @@ cd ~/Your Worksapce/src
 git clone https://github.com/HenryWJL/jaka_grasping.git
 ```
 
-### Step 5: Make
+### Step 5: 
 ```bash
 cd ..
 catkin_make
