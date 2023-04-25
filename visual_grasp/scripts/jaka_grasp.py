@@ -7,22 +7,52 @@ from geometry_msgs.msg import TwistStamped
 import time
 
 robot = jkrc.RC("192.168.200.100")
-target_pose = None
+start_pose = []
+target_pose = []
+place_pose = []  # the position where robotic arm places the object
 
 
-def init_robot():
+def init():
+    global start_pose
     robot.login()
     robot.power_on()
     robot.enable_robot()
     print("The robotic arm is ready to move")
+    ret = robot.get_tcp_position()
+    if ret[0] == 0:
+        start_pose = list(ret[1])
+
+    else:
+        print("Failed to get the original pose!")
 
 
 def move_to_grasp():
     ret = robot.linear_move(target_pose, 0, True, 1)
-    if ret == 0:
-        print("Successful movement!")
+    if ret[0] == 0:
+
+        # grasp the object
+
+        print("Successful grasp!")
+
     else:
         print("Failed to move to the target position!")
+    time.sleep(3)
+    ret = robot.linear_move(place_pose, 0, True, 1)
+    if ret[0] == 0:
+
+        # place the object
+
+        print("Successful place!")
+
+    else:
+        print("Failed to move to the place position!")
+    time.sleep(3)
+    ret = robot.linear_move(start_pose, 0, True, 1)
+    if ret[0] == 0:
+        print("Back to the original position!")
+
+    else:
+        print("Failed to go back to the original position!")
     time.sleep(3)
 
 
@@ -42,17 +72,24 @@ def callback(pose):
 
 if __name__ == '__main__':
     rospy.init_node('jaka_grasp', anonymous=True)
+    init()
     while not rospy.is_shutdown():
         try:
             rospy.Subscriber('/object_pose', TwistStamped, callback, queue_size=10)
-            command = str(input("Grasp: g, Reset: r"))
+            command = str(input("Grasp: g, E: e"))
             if command == 'g':
-                if target_pose is None:
+                if not target_pose:
                     print("No target position is available!")
+
                 else:
                     move_to_grasp()
-            elif command == 'r':
-                pass
+
+            elif command == 'e':
+                robot.disable_robot()
+                robot.power_off()
+                robot.logout()
+                break
+
             else:
                 print("Invalid option!")
                     
