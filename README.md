@@ -29,11 +29,10 @@ source devel/setup.bash
 
 ## Usage Instructions
 
-#### Step 1: Hand-eye calibration
+### Step 1: Hand-eye calibration
 - [handeye_calibration](https://github.com/HenryWJL/jaka_grasping/tree/main/handeye_calibration)
 
-#### Step 2: 
-
+### Step 2: 
 
 ```bash
 roslaunch visual_grasp start.launch
