@@ -27,3 +27,8 @@ catkin_make
 source devel/setup.bash
 ```
 
+## Usage Instructions
+
+```bash
+roslaunch visual_grasp start.launch
+```
