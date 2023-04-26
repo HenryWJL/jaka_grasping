@@ -1,5 +1,7 @@
 # Hand-Eye Calibration
 
+This package is used for hand-eye calibration. Intel Realsense D455 camera and JAKA MiniCobo robot are required.
+
 ## Usage Instruction
 
 ### Step 1: Print an ArUco target
