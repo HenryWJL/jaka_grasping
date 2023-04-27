@@ -17,7 +17,9 @@ def get_gripper2base_mat(pose):
     tran = np.array([[pose.twist.linear.x], [pose.twist.linear.y], [pose.twist.linear.z]])
     tran = tran.reshape((3, 1))
     rot = tfs.euler.euler2mat(pose.twist.angular.x, pose.twist.angular.y, pose.twist.angular.z)
-    return tran, rot
+    mat = np.column_stack(rot, tran)
+    mat = np.row_stack((mat, np.array([0, 0, 0, 1])))
+    return mat
 
 
 # def get_target2cam_mat(pose):  # using topic
@@ -28,12 +30,14 @@ def get_gripper2base_mat(pose):
 
 
 def get_target2cam_mat():  # using tf transform
-    listen = tf.TransformListener()
-    tran, rot = listen.lookupTransform('/camera_color_optical_frame', '/camera_link', rospy.Time(0))
-    tran = np.array(tran)  # '/camera_link' is the frame of ArUco
+    listener = tf.TransformListener()
+    tran, rot = listener.lookupTransform('/camera_color_optical_frame', '/camera_link', rospy.Time(0))
+    tran = np.array(tran)                                      # '/camera_link' is the frame of ArUco
     tran = tran.reshape((3, 1))
     rot = np.array(rot)
-    return tran, rot
+    mat = np.column_stack(rot, tran)
+    mat = np.row_stack((mat, np.array([0, 0, 0, 1])))
+    return mat
 
 
 def callback(pose):
@@ -59,12 +63,12 @@ if __name__ == '__main__':
             command = str(input())
 
             if command == 'r':
-                T_gripper2base, R_gripper2base = get_gripper2base_mat(tcp_pose)
-                R_gripper2base_samples.append(R_gripper2base)
-                T_gripper2base_samples.append(T_gripper2base)
-                T_target2cam, R_target2cam = get_target2cam_mat()
-                R_target2cam_samples.append(R_target2cam)
-                T_target2cam_samples.append(T_target2cam)
+                gripper2base = get_gripper2base_mat(tcp_pose)
+                R_gripper2base_samples.append(gripper2base[:3, :3])
+                T_gripper2base_samples.append(gripper2base[:3, 3])
+                target2cam = get_target2cam_mat()
+                R_target2cam_samples.append(target2cam[:3, :3])
+                T_target2cam_samples.append(target2cam[:3, 3])
                 sample_number += 1
                 print(f"{sample_number} samples have been recorded")
 
