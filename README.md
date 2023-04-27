@@ -44,5 +44,5 @@ roslaunch jaka_ros_driver start.launch
 
 ### Step 4: Start grasping
 ```bash
-roslaunch visual_grasp start.launch
+roslaunch visual_grasp grasp.launch
 ```
