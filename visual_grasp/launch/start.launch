@@ -6,8 +6,6 @@
 
     <include file="$(find realsense2_camera)/launch/rs_camera.launch"/>
 
-    <include file="$(find jaka_ros_driver)/launch/start.launch"/>
-
     <include file="$(find find_object_2d)/launch/ros1/find_object_3d.launch">
          <remap from="rgb/image_rect_color" to="$(arg rgb_topic)"/>
 	 <remap from="depth_registered/image_raw" to="$(arg depth_topic)"/>
