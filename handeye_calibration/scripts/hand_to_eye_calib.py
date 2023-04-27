@@ -65,10 +65,10 @@ if __name__ == '__main__':
             if command == 'r':
                 gripper2base = get_gripper2base_mat(tcp_pose)
                 R_gripper2base_samples.append(gripper2base[:3, :3])
-                T_gripper2base_samples.append(gripper2base[:3, 3])
+                T_gripper2base_samples.append(gripper2base[:3, 3].reshape((3, 1)))
                 target2cam = get_target2cam_mat()
                 R_target2cam_samples.append(target2cam[:3, :3])
-                T_target2cam_samples.append(target2cam[:3, 3])
+                T_target2cam_samples.append(target2cam[:3, 3].reshape((3, 1)))
                 sample_number += 1
                 print(f"{sample_number} samples have been recorded")
 
