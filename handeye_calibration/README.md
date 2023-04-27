@@ -6,6 +6,7 @@ This package is used for hand-eye calibration. Intel Realsense D455 camera and J
 
 ### Step 1: Print an ArUco target
 - [ArUco](https://chev.me/arucogen/)
+- Attention: When you enter the download interface, please click 'Dictionary' and choose 'Original ArUco'. 
 
 ### Step 2: Start the camera node
 ```bash
