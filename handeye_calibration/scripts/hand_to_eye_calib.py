@@ -15,6 +15,7 @@ tcp_pose = TwistStamped()
 
 def get_gripper2base_mat(pose):
     tran = np.array([[pose.twist.linear.x], [pose.twist.linear.y], [pose.twist.linear.z]])
+    tran = tran.reshape((3, 1))
     rot = tfs.euler.euler2mat(pose.twist.angular.x, pose.twist.angular.y, pose.twist.angular.z)
     return tran, rot
 
@@ -30,6 +31,7 @@ def get_target2cam_mat():  # using tf transform
     listen = tf.TransformListener()
     tran, rot = listen.lookupTransform('/camera_color_optical_frame', '/camera_link', rospy.Time(0))
     tran = np.array(tran)  # '/camera_link' is the frame of ArUco
+    tran = tran.reshape((3, 1))
     rot = np.array(rot)
     return tran, rot
 
@@ -53,7 +55,8 @@ if __name__ == '__main__':
     while not rospy.is_shutdown():
         try:
             rospy.Subscriber('/robot_driver/tool_point', TwistStamped, callback, queue_size=10)
-            command = str(input("Record: r, Calibrate: c, Save: s"))
+            print("Record: r, Calibrate: c, Save: s")
+            command = str(input())
 
             if command == 'r':
                 T_gripper2base, R_gripper2base = get_gripper2base_mat(tcp_pose)
@@ -91,7 +94,7 @@ if __name__ == '__main__':
 
             time.sleep(2)
 
-        except rospy.ROSInterruptExceptionException:
+        except rospy.ROSInterruptException:
             rospy.loginfo("Waiting for robot data!")
             continue
 

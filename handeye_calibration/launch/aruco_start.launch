@@ -1,6 +1,6 @@
 <launch>
      
-    <arg name="markerId"        default="0"/>
+    <arg name="markerId"        default="250"/>
     <arg name="markerSize"      default="0.1"/>    
     <arg name="eye"             default="left"/>
     <arg name="marker_frame"    default="aruco_marker_frame"/>
