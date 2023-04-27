@@ -37,5 +37,3 @@ source devel/setup.bash
 ```bash
 roslaunch visual_grasp start.launch
 ```
-
-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
