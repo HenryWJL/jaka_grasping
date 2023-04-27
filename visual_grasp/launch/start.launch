@@ -1,5 +1,7 @@
 <include>
   
-    <node pkg="visual_grasp" type="">
+    <node pkg="visual_grasp" type="object_location.py" name="object_location" output="screen"/>
+      
+    <node pkg="visual_grasp" type="jaka_grasp.py" name="jaka_grasp" output="screen"/>
   
 </include>
