@@ -12,11 +12,15 @@ This package is used for hand-eye calibration. Intel Realsense D455 camera and J
 ```bash
 roslaunch realsense2_camera rs_camera.launch
 ```
-### Step 3: Start the robot node
+### Step 3: Start the aruco_ros node
+```bash
+roslaunch handeye_calibration aruco_start.launch
+```
+### Step 4: Start the robot node
 ```bash
 roslaunch jaka_ros_driver start.launch
 ```
-### Step 4: Start the calibration node. 
+### Step 5: Start the calibration node. 
 ```bash
 rosrun handeye_calibration hand_to_eye_calib.py
 ```
