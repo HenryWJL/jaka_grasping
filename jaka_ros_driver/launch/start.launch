@@ -1,5 +1,5 @@
 <launch>
-  <param name="robot_ip" value="192.168.1.100" type="str" />
+  <param name="robot_ip" value="192.168.200.100" type="str" />
   <node pkg="jaka_ros_driver" type="connect_robot" name="connect_robot" output="screen" />
   
 
