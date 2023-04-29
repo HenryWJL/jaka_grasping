@@ -29,7 +29,7 @@ def detection_listener():
 
 def location_publisher():
     rospy.init_node('object_location', anonymous=True)
-    with open('~/handeye_calibration/yaml/camera_to_base_matrix.yaml', 'r') as f:
+    with open('./jaka_ws/src/jaka_grasping/handeye_calibration/yaml/camera_to_base_matrix.yaml', 'r') as f:
         cam2base = yaml.load(f.read(), Loader=yaml.FullLoader)
         cam2base = np.array(cam2base)
     pub = rospy.Publisher('object_pose', TwistStamped, queue_size=10)
@@ -38,7 +38,7 @@ def location_publisher():
         try:
             detection_listener()
             if cam2base is None:
-                print("No object_to_camera matrix!")
+                rospy.logerr("No object_to_camera matrix!")
                 break
             if object2cam is None:
                 print("No object_to_camera matrix!")
@@ -57,7 +57,8 @@ def location_publisher():
             pub.publish(pose)
             rate.sleep()
         except rospy.ROSInterruptException:
-            print("Failed to detect or locate objects!")
+            rospy.logwarn("Failed to detect or locate objects!")
+            continue
 
 
 if __name__ == '__main__':
