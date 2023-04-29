@@ -37,7 +37,7 @@ def get_target2cam_mat():  # using tf transform
 def callback(pose):
     global tcp_pose
     if pose is None:
-        rospy.logwarn("No tcp pose data!")
+        rospy.logwarn("No robot pose data!")
     else:
         tcp_pose = pose
 
@@ -98,9 +98,9 @@ if __name__ == '__main__':
             time.sleep(2)
 
         except rospy.ROSInterruptException:
-            rospy.logwarn("Waiting for robot data!")
+            rospy.logwarn("No robot pose data!")
             continue
 
         except(tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-            rospy.logwarn("Waiting for ArUco data!")
+            rospy.logwarn("No ArUco target data!")
             continue
