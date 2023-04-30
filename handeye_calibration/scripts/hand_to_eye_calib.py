@@ -5,12 +5,13 @@ import rospy
 import numpy as np
 import cv2
 import transforms3d as tfs
-import tf
 from geometry_msgs.msg import TwistStamped
+from tf2_msgs.msg import TFMessage
 import time
 import yaml
 
-tcp_pose = TwistStamped()
+end_pose = TwistStamped()
+target_pose = TFMessage()
 gripper2end = np.column_stack((np.identity(3), np.array([0, 0, 0.12])))
 gripper2end = np.row_stack((gripper2end, np.array([0, 0, 0, 1])))
 
@@ -24,32 +25,42 @@ def get_gripper2base_mat(pose):
     return gripper2base[:3, :3], gripper2base[:3, 3]
 
 
-# def get_target2cam_mat(pose):  # using topic
-#     tran = np.array([[pose.pose.position.x], [pose.pose.position.y], [pose.pose.position.z]])
-#     rot = tfs.quaternions.quat2mat((pose.pose.orientation.w, pose.pose.orientation.x,
-#                                     pose.pose.orientation.y, pose.pose.orientation.z))
-#     return tran, rot
+def get_target2cam_mat(pose):  # using topic
+    pose = pose.transforms[0].transform
+    tran = np.array([[pose.translation.x], [pose.translation.y], [pose.translation.z]])
+    rot = tfs.quaternions.quat2mat((pose.rotation.w, pose.rotation.x,
+                                    pose.rotation.y, pose.rotation.z))
+    return tran, rot
 
 
-def get_target2cam_mat():  # using tf transform
-    listener = tf.TransformListener()
-    tran, rot = listener.lookupTransform('/camera_link', '/aruco_marker_frame', rospy.Time(0))
-    tran = np.array((tran[0], tran[1], tran[2]))
-    rot = tfs.quaternions.quat2mat((rot[0], rot[1], rot[2], rot[3]))
-    return rot, tran
+# def get_target2cam_mat():  # using tf transform
+#     listener = tf.TransformListener()
+#     tran, rot = listener.lookupTransform('/camera_link', 'aruco_marker_frame', rospy.Time(0))
+#     tran = np.array((tran[0], tran[1], tran[2]))
+#     rot = tfs.quaternions.quat2mat((rot[0], rot[1], rot[2], rot[3]))
+#     return rot, tran
 
 
-def callback(pose):
-    global tcp_pose
+def end_pose_callback(pose):
+    global end_pose
     if pose is None:
         rospy.logwarn("No robot pose data!")
     else:
-        tcp_pose = pose
+        end_pose = pose
+
+
+def target_pose_callback(pose):
+    global target_pose
+    if pose is None:
+        rospy.logwarn("No ArUco target data!")
+    else:
+        target_pose = pose
 
 
 if __name__ == '__main__':
     rospy.init_node('hand_to_eye_calib', anonymous=True)
-    rospy.Subscriber('/robot_driver/tool_point', TwistStamped, callback, queue_size=10)
+    rospy.Subscriber('/robot_driver/tool_point', TwistStamped, end_pose_callback, queue_size=10)
+    rospy.Subscriber('/tf', TFMessage, target_pose_callback, queue_size=10)
     R_gripper2base_samples = []
     T_gripper2base_samples = []
     R_target2cam_samples = []
@@ -62,10 +73,10 @@ if __name__ == '__main__':
             command = str(input())
 
             if command == 'r':
-                (R_target2cam, T_target2cam) = get_target2cam_mat()
+                (R_target2cam, T_target2cam) = get_target2cam_mat(target_pose)
                 R_target2cam_samples.append(R_target2cam)
                 T_target2cam_samples.append(T_target2cam)
-                (R_gripper2base, T_gripper2base) = get_gripper2base_mat(tcp_pose)
+                (R_gripper2base, T_gripper2base) = get_gripper2base_mat(end_pose)
                 R_gripper2base_samples.append(R_gripper2base)
                 T_gripper2base_samples.append(T_gripper2base)
                 sample_number += 1
@@ -103,9 +114,5 @@ if __name__ == '__main__':
             time.sleep(2)
 
         except rospy.ROSInterruptException:
-            rospy.logwarn("No robot pose data!")
-            continue
-
-        except(tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-            rospy.logwarn("No ArUco target data!")
+            rospy.logwarn("No available data!")
             continue

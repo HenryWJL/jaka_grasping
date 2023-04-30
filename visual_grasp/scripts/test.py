@@ -20,11 +20,12 @@ robot.enable_robot()
 # robot.jog(2, 0, 0, 5, 300)
 ret = robot.get_tcp_position()
 target_pose = ret[1]
-ret = robot.get_joint_position()
-print(ret[1])
-ref_pos = ret[1]
-ret = robot.kine_inverse(ref_pos, target_pose)
-print(ret[1])
+print(target_pose)
+# ret = robot.get_joint_position()
+# print(ret[1])
+# ref_pos = ret[1]
+# ret = robot.kine_inverse(ref_pos, target_pose)
+# print(ret[1])
 # robot.joint_move(ret[1], 0, True, 3)
 time.sleep(3)
 

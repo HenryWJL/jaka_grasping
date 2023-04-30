@@ -9,7 +9,7 @@ import time
 from geometry_msgs.msg import TwistStamped
 from tf2_msgs.msg import TFMessage
 
-object2cam = None
+object2cam = np.identity(4)
 
 
 def callback(object_data):
@@ -62,4 +62,3 @@ def location_publisher():
 
 if __name__ == '__main__':
     location_publisher()
-
