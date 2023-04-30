@@ -32,17 +32,17 @@ source devel/setup.bash
 ### Step 1: Hand-eye calibration
 - [handeye_calibration](https://github.com/HenryWJL/jaka_grasping/tree/main/handeye_calibration)
 
-### Step 2: Start objects detection
+### Step 2: Start find-object-3d
 ```bash
 roslaunch visual_grasp object_detection.launch
 ```
 
-### Step 3: Start the robot node
+### Step 3: Start object location
 ```bash
-roslaunch jaka_ros_driver start.launch
+rosrun  visual_grasp object_location.py
 ```
 
 ### Step 4: Start grasping
 ```bash
-roslaunch visual_grasp grasp.launch
+rosrun visual_grasp jaka_grasp.py
 ```
