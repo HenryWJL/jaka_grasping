@@ -39,7 +39,7 @@ def location_publisher():
                 rospy.logwarn("No object data available!")
                 time.sleep(2)
                 continue
-            object2base = np.matmul(object2cam, cam2base)
+            object2base = np.matmul(cam2base, object2cam)
             R_object2base = object2base[:3, :3]
             T_object2base = object2base[:3, 3]
             rx, ry, rz = tfs.euler.mat2euler(R_object2base)
