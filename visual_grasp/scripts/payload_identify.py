@@ -2,8 +2,8 @@ import jkrc
 import time
 
 PI = 3.14159265
-target_pose = [-266.4363286039594, -15.709620237819116, 328.4071097998305,
-               516.6579082169311, 636.6877768864314, -523.3736902150538]
+# target_pose = [-266.4363286039594, -15.709620237819116, 328.4071097998305,
+#                516.6579082169311, 636.6877768864314, -523.3736902150538]
 robot = jkrc.RC("192.168.200.100")
 robot.login()
 robot.power_on()
@@ -18,10 +18,12 @@ robot.enable_robot()
 # robot.jog(2, 0, 0, 5, 300)
 # robot.jog(2, 0, 0, 5, 300)
 # robot.jog(2, 0, 0, 5, 300)
+ret = robot.get_tcp_position()
+target_pose = ret[1]
 ret = robot.get_joint_position()
+print(ret[1])
 ref_pos = ret[1]
 ret = robot.kine_inverse(ref_pos, target_pose)
-print(ret[0])
 print(ret[1])
 # robot.joint_move(ret[1], 0, True, 3)
 time.sleep(3)

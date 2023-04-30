@@ -69,7 +69,7 @@ def grasp_and_place():
 
 def callback(pose):
     global joint_target_pose
-    tcp_target_pose = [pose.twist.linear.x * 1000, pose.twist.linear.y * 1000, pose.twist.linear.z * 1000 - 400,
+    tcp_target_pose = [pose.twist.linear.x * 1000, pose.twist.linear.y * 1000, pose.twist.linear.z * 1000,
                        pose.twist.angular.x, pose.twist.angular.y, pose.twist.angular.z]
     ret = robot.kine_inverse(joint_start_pose, tcp_target_pose)
     if ret[0] == 0:
@@ -77,6 +77,7 @@ def callback(pose):
 
     else:
         rospy.logwarn("Failed to set the target pose!")
+        print("Failed to set the target pose!")
 
 
 if __name__ == '__main__':
