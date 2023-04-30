@@ -33,8 +33,8 @@ def get_gripper2base_mat(pose):
 
 def get_target2cam_mat():  # using tf transform
     listener = tf.TransformListener()
-    tran, rot = listener.lookupTransform('/camera_color_optical_frame', '/camera_link', rospy.Time(0))
-    tran = np.array((tran[0], tran[1], tran[2]))                        # '/camera_link' is the frame of ArUco
+    tran, rot = listener.lookupTransform('/camera_link', '/aruco_marker_frame', rospy.Time(0))
+    tran = np.array((tran[0], tran[1], tran[2]))
     rot = tfs.quaternions.quat2mat((rot[0], rot[1], rot[2], rot[3]))
     return rot, tran
 
