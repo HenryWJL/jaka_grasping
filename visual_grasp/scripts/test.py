@@ -10,7 +10,7 @@ robot.power_on()
 robot.enable_robot()
 # robot.collision_recover()
 # target_pose = [start_pose[0], start_pose[1], start_pose[2]-0.05, start_pose[3], start_pose[4], start_pose[5]]
-
+while True:
 # robot.joint_move(joint_pose, 0, True, 1)
 # robot.jog(2, 0, 0, 5, 300)
 # robot.jog(2, 0, 0, 5, 300)
@@ -18,16 +18,16 @@ robot.enable_robot()
 # robot.jog(2, 0, 0, 5, 300)
 # robot.jog(2, 0, 0, 5, 300)
 # robot.jog(2, 0, 0, 5, 300)
-ret = robot.get_tcp_position()
-target_pose = ret[1]
-print(target_pose)
+    ret = robot.get_tcp_position()
+    target_pose = ret[1]
+    print(target_pose)
 # ret = robot.get_joint_position()
 # print(ret[1])
 # ref_pos = ret[1]
 # ret = robot.kine_inverse(ref_pos, target_pose)
 # print(ret[1])
 # robot.joint_move(ret[1], 0, True, 3)
-time.sleep(3)
+    time.sleep(3)
 
 # robot.set_torsenosr_brand(2)
 # robot.set_torque_sensor_mode(1)

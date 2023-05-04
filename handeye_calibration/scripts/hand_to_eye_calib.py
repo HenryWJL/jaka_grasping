@@ -12,7 +12,7 @@ import yaml
 
 end_pose = TwistStamped()
 target_pose = TFMessage()
-gripper2end = np.column_stack((np.identity(3), np.array([0, 0, 0.12])))
+gripper2end = np.column_stack((np.identity(3), np.array([0, 0, 0])))
 gripper2end = np.row_stack((gripper2end, np.array([0, 0, 0, 1])))
 
 
