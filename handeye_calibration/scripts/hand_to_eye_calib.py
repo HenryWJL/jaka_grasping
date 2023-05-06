@@ -13,21 +13,17 @@ import yaml
 
 end_pose = None
 target_pose = None
-gripper2end = np.column_stack((np.identity(3), np.array([0, 0, 0])))
-gripper2end = np.row_stack((gripper2end, np.array([0, 0, 0, 1])))
+gripper2end = np.identity(4)
+gripper2end[2, 3] = 0.1
 
 
-# def get_gripper2base_mat(pose):
-#     T_end2base = np.array((pose.twist.linear.x, pose.twist.linear.y, pose.twist.linear.z))
-#     R_end2base = tfs.euler.euler2mat(pose.twist.angular.x, pose.twist.angular.y, pose.twist.angular.z)
-#     end2base = np.column_stack((R_end2base, T_end2base))
-#     end2base = np.row_stack((end2base, np.array([0, 0, 0, 1])))
-#     gripper2base = np.matmul(end2base, gripper2end)
-#     return gripper2base[:3, :3], gripper2base[:3, 3]
 def get_gripper2base_mat(pose):
-    tran = np.array([[pose.twist.linear.x], [pose.twist.linear.y], [pose.twist.linear.z]])
-    rot = tfs.euler.euler2mat(pose.twist.angular.x, pose.twist.angular.y, pose.twist.angular.z)
-    return rot, tran
+    T_end2base = np.array((pose.twist.linear.x, pose.twist.linear.y, pose.twist.linear.z))
+    R_end2base = tfs.euler.euler2mat(pose.twist.angular.x, pose.twist.angular.y, pose.twist.angular.z)
+    end2base = np.column_stack((R_end2base, T_end2base))
+    end2base = np.row_stack((end2base, np.array([0, 0, 0, 1])))
+    gripper2base = np.matmul(end2base, gripper2end)
+    return gripper2base[:3, :3], gripper2base[:3, 3]
 
 
 def get_target2cam_mat(pose):  # using topic
