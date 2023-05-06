@@ -18,7 +18,7 @@ def callback(pose):
     mat = np.row_stack((mat, np.array([0, 0, 0, 1])))
     cam2upper = np.linalg.inv(mat)
     upper2base = np.identity(4)
-    up2base[2, 3] = 0.2820869032411154
+    upper2base[2, 3] = 0.2820869032411154
     cam2base = np.matmul(upper2base, cam2upper)
 
 
@@ -35,7 +35,8 @@ if __name__ == '__main__':
         if command == 'r':
             with open('./jaka_ws/src/jaka_grasping/handeye_calibration/yaml/camera_to_base_matrix.yaml',
                       'w', encoding='utf-8') as f:
-                yaml.dump(data=cam2base, stream=f)
+                yaml.dump(data=cam2base.tolist(), stream=f)
+            break
 
         else:
             rospy.logwarn("Invalid option!")
