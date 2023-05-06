@@ -10,27 +10,32 @@ from tf2_msgs.msg import TFMessage
 import time
 import yaml
 
-end_pose = TwistStamped()
-target_pose = TFMessage()
+
+end_pose = None
+target_pose = None
 gripper2end = np.column_stack((np.identity(3), np.array([0, 0, 0])))
 gripper2end = np.row_stack((gripper2end, np.array([0, 0, 0, 1])))
 
 
+# def get_gripper2base_mat(pose):
+#     T_end2base = np.array((pose.twist.linear.x, pose.twist.linear.y, pose.twist.linear.z))
+#     R_end2base = tfs.euler.euler2mat(pose.twist.angular.x, pose.twist.angular.y, pose.twist.angular.z)
+#     end2base = np.column_stack((R_end2base, T_end2base))
+#     end2base = np.row_stack((end2base, np.array([0, 0, 0, 1])))
+#     gripper2base = np.matmul(end2base, gripper2end)
+#     return gripper2base[:3, :3], gripper2base[:3, 3]
 def get_gripper2base_mat(pose):
-    T_end2base = np.array((pose.twist.linear.x, pose.twist.linear.y, pose.twist.linear.z))
-    R_end2base = tfs.euler.euler2mat(pose.twist.angular.x, pose.twist.angular.y, pose.twist.angular.z)
-    end2base = np.column_stack((R_end2base, T_end2base))
-    end2base = np.row_stack((end2base, np.array([0, 0, 0, 1])))
-    gripper2base = np.matmul(end2base, gripper2end)
-    return gripper2base[:3, :3], gripper2base[:3, 3]
+    tran = np.array([[pose.twist.linear.x], [pose.twist.linear.y], [pose.twist.linear.z]])
+    rot = tfs.euler.euler2mat(pose.twist.angular.x, pose.twist.angular.y, pose.twist.angular.z)
+    return rot, tran
 
 
 def get_target2cam_mat(pose):  # using topic
     pose = pose.transforms[0].transform
-    tran = np.array([[pose.translation.x], [pose.translation.y], [pose.translation.z]])
+    tran = np.array(([pose.translation.x], [pose.translation.y], [pose.translation.z]))
     rot = tfs.quaternions.quat2mat((pose.rotation.w, pose.rotation.x,
                                     pose.rotation.y, pose.rotation.z))
-    return tran, rot
+    return rot, tran
 
 
 # def get_target2cam_mat():  # using tf transform
@@ -69,14 +74,28 @@ if __name__ == '__main__':
     cam2base = None
     while not rospy.is_shutdown():
         try:
+            if end_pose is None:
+                rospy.logwarn("Waiting for JAKA data...")
+                time.sleep(2)
+                continue
+
+            if target_pose is None:
+                rospy.logwarn("Waiting for ArUco data...")
+                time.sleep(2)
+                continue
+
             print("Record: r, Calibrate: c, Save: s, Quit: q")
             command = str(input())
 
             if command == 'r':
                 (R_target2cam, T_target2cam) = get_target2cam_mat(target_pose)
+                print(R_target2cam)
+                print(T_target2cam)
                 R_target2cam_samples.append(R_target2cam)
                 T_target2cam_samples.append(T_target2cam)
                 (R_gripper2base, T_gripper2base) = get_gripper2base_mat(end_pose)
+                print(R_gripper2base)
+                print(T_gripper2base)
                 R_gripper2base_samples.append(R_gripper2base)
                 T_gripper2base_samples.append(T_gripper2base)
                 sample_number += 1
