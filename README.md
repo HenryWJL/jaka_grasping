@@ -40,16 +40,15 @@ There are two options for you. One is using ROS **find-object-2d** package to de
 roslaunch visual_grasp object_detection.launch
 ```
 - Using ArUco
+```bash
+roslaunch visual_grasp object_detection_aruco.launch
+```
 In the **object_detection_aruco.launch** file, modify the following two arguments:
 ```launch
 <launch>
      
     <arg name="markerId"        default="250"/>
     <arg name="markerSize"      default="0.1"/> 
-```
-Then run:
-```bash
-roslaunch visual_grasp object_detection_aruco.launch
 ```
 
 ### Step 3: Start object location
