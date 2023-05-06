@@ -9,25 +9,28 @@ import time
 from geometry_msgs.msg import TwistStamped
 from tf2_msgs.msg import TFMessage
 
-object2cam = np.identity(4)
+object2cam = None
 
 
-def callback(object_data):
+def callback(pose):
     global object2cam
-    T_object2cam = object_data.transforms[0].transform.translation
-    R_object2cam = object_data.transforms[0].transform.rotation
-    T_object2cam = np.array((T_object2cam.x, T_object2cam.y, T_object2cam.z))
-    R_object2cam = tfs.quaternions.quat2mat((R_object2cam.w, R_object2cam.x, R_object2cam.y, R_object2cam.z))
-    object2cam = np.column_stack((R_object2cam, T_object2cam))
-    object2cam = np.row_stack((object2cam, np.array([0, 0, 0, 1])))
+    if pose is None:
+        rospy.logwarn("No object data!")
+    else:
+        pose = pose.transforms[0].transform
+        T_object2cam = np.array([[pose.translation.x], [pose.translation.y], [pose.translation.z]])
+        R_object2cam = tfs.quaternions.quat2mat((pose.rotation.w, pose.rotation.x,
+                                                 pose.rotation.y, pose.rotation.z))
+        object2cam = np.column_stack((R_object2cam, T_object2cam))
+        object2cam = np.row_stack((object2cam, np.array([0, 0, 0, 1])))
 
 
 def location_publisher():
-    rospy.init_node('object_location', anonymous=True)
     with open('./jaka_ws/src/jaka_grasping/handeye_calibration/yaml/camera_to_base_matrix.yaml', 'r') as f:
         cam2base = yaml.load(f.read(), Loader=yaml.FullLoader)
         cam2base = np.array(cam2base)
-    rospy.Subscriber("/tf", TFMessage, callback, queue_size=10)
+    rospy.init_node('object_location_aruco', anonymous=True)
+    rospy.Subscriber('/tf', TFMessage, callback, queue_size=10)
     pub = rospy.Publisher('object_pose', TwistStamped, queue_size=10)
     rate = rospy.Rate(5)
     while not rospy.is_shutdown():

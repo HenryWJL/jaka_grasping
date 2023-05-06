@@ -38,14 +38,6 @@ def get_target2cam_mat(pose):  # using topic
     return rot, tran
 
 
-# def get_target2cam_mat():  # using tf transform
-#     listener = tf.TransformListener()
-#     tran, rot = listener.lookupTransform('/camera_link', 'aruco_marker_frame', rospy.Time(0))
-#     tran = np.array((tran[0], tran[1], tran[2]))
-#     rot = tfs.quaternions.quat2mat((rot[0], rot[1], rot[2], rot[3]))
-#     return rot, tran
-
-
 def end_pose_callback(pose):
     global end_pose
     if pose is None:

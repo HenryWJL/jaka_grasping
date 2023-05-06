@@ -13,11 +13,15 @@ robot.power_on()
 robot.enable_robot()
 # robot.collision_recover()
 # target_pose = [start_pose[0], start_pose[1], start_pose[2]-0.05, start_pose[3], start_pose[4], start_pose[5]]
-# rot = tfs.quaternions.quat2mat((0.9501563109375586, -0.3116919399268672, -0.006500308387740517, 0.0029774756119906576))
-# tran = np.array((0.23701876401901245, -0.16576284170150757, 0.8335840106010437))
+# rot = tfs.quaternions.quat2mat((0.9445453031904033, -0.32583345460238583, 0.03934682226708879, -0.01088841863202325))
+# tran = np.array((0.3565662205219269, -0.22302578389644623, 0.5799561142921448))
 # mat = np.column_stack((rot, tran))
 # mat = np.row_stack((mat, np.array([0, 0, 0, 1])))
-# print(np.linalg.inv(mat))
+# cam2up = np.linalg.inv(mat)
+# up2base = np.identity(4)
+# up2base[2, 3] = 0.2820869032411154
+# cam2base = np.matmul(up2base, cam2up)
+# print(cam2base)
 while True:
     ret = robot.get_tcp_position()
     target_pose = ret[1]
