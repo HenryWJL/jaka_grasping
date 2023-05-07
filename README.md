@@ -48,7 +48,7 @@ In the **object_detection_aruco.launch** file, modify the following two argument
 <launch>
      
     <arg name="markerId"        default="250"/>
-    <arg name="markerSize"      default="0.1"/> 
+    <arg name="markerSize"      default="0.4"/> 
 ```
 
 ### Step 3: Start object location
