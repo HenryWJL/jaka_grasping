@@ -6,20 +6,20 @@ import jkrc
 from geometry_msgs.msg import TwistStamped
 import time
 
-robot = jkrc.RC("192.168.200.100")
-joint_start_pose = []
-joint_target_pose = []
-joint_place_pose = [4.433551674363015, 0.059916880001345894, -1.7483379189204271,
-                    3.2127842298677276, 1.5035108767697898, -5.475103893985845]
-# the position where robotic arm places the object
+robot = jkrc.RC("192.168.200.100")  # Modify the robot ip to your own
+joint_start_pose = []  # the original joint position of the robot
+joint_target_pose = []  # the target joint position sightly above the object
+joint_place_pose = [4.433551674363015, 0.059916880001345894, -1.7483379189204271,   # the position where the
+                    3.2127842298677276, 1.5035108767697898, -5.475103893985845]     # robot places the object
 
 
 def init():
+    # Enable the robot and set the robot's starting pose
     global joint_start_pose
     robot.login()
     robot.enable_robot()
     robot.set_collision_level(1)
-    rospy.loginfo("The robotic arm is ready to move")
+    rospy.loginfo("The robot is ready to move")
     ret = robot.get_joint_position()
     if ret[0] == 0:
         joint_start_pose = ret[1]
@@ -29,10 +29,11 @@ def init():
 
 
 def callback(pose):
+    # Set the target pose to what is published on the topic 'object_pose'
     global joint_target_pose
-    tcp_target_pose = [pose.twist.linear.x * 1000, pose.twist.linear.y * 1000, 130,
-                       -3.106103956567233, -0.027290779839484594, 2.399677252426657]
-    ret = robot.kine_inverse(joint_start_pose, tcp_target_pose)
+    tcp_target_pose = [pose.twist.linear.x * 1000, pose.twist.linear.y * 1000, 130,   # The target pose w.r.t
+                       -3.106103956567233, -0.027290779839484594, 2.399677252426657]  # the Cartesian space
+    ret = robot.kine_inverse(joint_start_pose, tcp_target_pose)  # Calculate the target pose w.r.t the joint space
     if ret[0] == 0:
         joint_target_pose = ret[1]
 
@@ -42,10 +43,11 @@ def callback(pose):
 
 
 def grasp_and_place():
-    ret = robot.joint_move(joint_target_pose, 0, True, 2)
+    # Perform the grasping and placing tasks
+    ret = robot.joint_move(joint_target_pose, 0, True, 2)  # Move to the target position
     time.sleep(2)
     if ret[0] == 0:
-        ret = robot.linear_move([0, 0, -17, 0, 0, 0], 1, True, 5)
+        ret = robot.linear_move([0, 0, -17, 0, 0, 0], 1, True, 5)  # Move 17 mm down the z axis
         time.sleep(2)
         if ret[0] == 0:
 
@@ -53,14 +55,14 @@ def grasp_and_place():
 
             print("Successful grasp!")
             time.sleep(2)
-            ret = robot.joint_move(joint_place_pose, 0, True, 2)
+            ret = robot.joint_move(joint_place_pose, 0, True, 2)  # Move to the placing position
             if ret[0] == 0:
 
                 # place the object
 
                 print("Successful place!")
                 time.sleep(2)
-                ret = robot.joint_move(joint_start_pose, 0, True, 2)
+                ret = robot.joint_move(joint_start_pose, 0, True, 2)  # Back to the original position
                 if ret[0] == 0:
                     rospy.loginfo("Back to the original position!")
                     time.sleep(2)
@@ -97,14 +99,20 @@ if __name__ == '__main__':
             command = str(input())
             if command == 'g':
                 if not joint_target_pose:
-                    rospy.logwarn("No target position is available!")
+                    rospy.logwarn("No target position available!")
 
                 else:
                     success = grasp_and_place()
                     if not success:
                         res = robot.is_in_collision()
                         collision_state = res[1]
+
                         if collision_state == 1:
+                            """
+                            If a collision happens, the JAKA robot will turn into the "collision protection" pattern
+                            and automatically lock itself. In this case, withdraw from the "collision protection" 
+                            pattern and terminate the program. 
+                            """
                             robot.motion_abort()
                             time.sleep(3)
                             robot.collision_recover()
@@ -120,4 +128,4 @@ if __name__ == '__main__':
                 rospy.logwarn("Invalid option!")
 
         except rospy.ROSInterruptException:
-            rospy.logwarn("Failed!")
+            rospy.logwarn("No object pose data available!")

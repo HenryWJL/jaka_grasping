@@ -11,13 +11,14 @@ import time
 import yaml
 
 
-end_pose = None
-target_pose = None
+end_pose = None  # The pose of robot's end
+target_pose = None  # The pose of ArUco target
 gripper2end = np.identity(4)
 gripper2end[2, 3] = 0.1
 
 
 def get_gripper2base_mat(pose):
+    # Calculate the gripper-to-base transformation matrix
     T_end2base = np.array((pose.twist.linear.x, pose.twist.linear.y, pose.twist.linear.z))
     R_end2base = tfs.euler.euler2mat(pose.twist.angular.x, pose.twist.angular.y, pose.twist.angular.z)
     end2base = np.column_stack((R_end2base, T_end2base))
@@ -26,7 +27,8 @@ def get_gripper2base_mat(pose):
     return gripper2base[:3, :3], gripper2base[:3, 3]
 
 
-def get_target2cam_mat(pose):  # using topic
+def get_target2cam_mat(pose):
+    # Calculate the ArUco-target-to-camera transformation matrix
     pose = pose.transforms[0].transform
     tran = np.array(([pose.translation.x], [pose.translation.y], [pose.translation.z]))
     rot = tfs.quaternions.quat2mat((pose.rotation.w, pose.rotation.x,
@@ -38,6 +40,7 @@ def end_pose_callback(pose):
     global end_pose
     if pose is None:
         rospy.logwarn("No robot pose data!")
+
     else:
         end_pose = pose
 
@@ -46,20 +49,27 @@ def target_pose_callback(pose):
     global target_pose
     if pose is None:
         rospy.logwarn("No ArUco target data!")
+
     else:
         target_pose = pose
 
 
 if __name__ == '__main__':
+    """
+    End-pose data and target-pose data are obtained from topics '/robot_driver/tool_point' 
+    and '/tf', respectively. 
+    """
     rospy.init_node('hand_to_eye_calib', anonymous=True)
     rospy.Subscriber('/robot_driver/tool_point', TwistStamped, end_pose_callback, queue_size=10)
     rospy.Subscriber('/tf', TFMessage, target_pose_callback, queue_size=10)
+
     R_gripper2base_samples = []
     T_gripper2base_samples = []
     R_target2cam_samples = []
     T_target2cam_samples = []
     sample_number = 0
     cam2base = None
+
     while not rospy.is_shutdown():
         try:
             if end_pose is None:
@@ -77,15 +87,13 @@ if __name__ == '__main__':
 
             if command == 'r':
                 (R_target2cam, T_target2cam) = get_target2cam_mat(target_pose)
-                print(R_target2cam)
-                print(T_target2cam)
                 R_target2cam_samples.append(R_target2cam)
                 T_target2cam_samples.append(T_target2cam)
+
                 (R_gripper2base, T_gripper2base) = get_gripper2base_mat(end_pose)
-                print(R_gripper2base)
-                print(T_gripper2base)
                 R_gripper2base_samples.append(R_gripper2base)
                 T_gripper2base_samples.append(T_gripper2base)
+
                 sample_number += 1
                 print(f"{sample_number} samples have been recorded")
 
@@ -106,10 +114,10 @@ if __name__ == '__main__':
                     rospy.logwarn("No result to save!")
 
                 else:
-                    cam2base = cam2base.tolist()  # change np.array to list so that it can be stored in .yaml file
+                    # Modify the following file saving path to your own
                     with open('./jaka_ws/src/jaka_grasping/handeye_calibration/yaml/camera_to_base_matrix.yaml',
                               'w', encoding='utf-8') as f:
-                        yaml.dump(data=cam2base, stream=f)
+                        yaml.dump(data=cam2base.tolist(), stream=f)
                     break
 
             elif command == 'q':
