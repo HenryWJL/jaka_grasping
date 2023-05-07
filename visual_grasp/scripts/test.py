@@ -11,7 +11,6 @@ robot = jkrc.RC("192.168.200.100")
 robot.login()
 robot.power_on()
 robot.enable_robot()
-ret = robot.linear_move([0, 0, 30, 0, 0, 0], 1, True, 5)
 # robot.collision_recover()
 # target_pose = [start_pose[0], start_pose[1], start_pose[2]-0.05, start_pose[3], start_pose[4], start_pose[5]]
 # rot = tfs.quaternions.quat2mat((0.9445453031904033, -0.32583345460238583, 0.03934682226708879, -0.01088841863202325))
@@ -23,11 +22,11 @@ ret = robot.linear_move([0, 0, 30, 0, 0, 0], 1, True, 5)
 # up2base[2, 3] = 0.2820869032411154
 # cam2base = np.matmul(up2base, cam2up)
 # print(cam2base)
-# while True:
-#     ret = robot.get_tcp_position()
-#     target_pose = ret[1]
-#     print(target_pose)
-#     time.sleep(3)
+while True:
+    ret = robot.get_tcp_position()
+    target_pose = ret[1]
+    print(target_pose)
+    time.sleep(3)
 # ret = robot.get_joint_position()
 # print(ret[1])
 # ref_pos = ret[1]

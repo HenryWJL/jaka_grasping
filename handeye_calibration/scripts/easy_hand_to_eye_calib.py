@@ -10,8 +10,6 @@ import yaml
 
 upper2base = np.identity(4)
 upper2base[2, 3] = 0.2820869032411154
-right2left = np.identity(4)
-right2left[1, 1] = -1
 cam2base = None
 
 
@@ -26,12 +24,6 @@ def callback(pose):
     mat = np.row_stack((mat, np.array([0, 0, 0, 1])))
     cam2upper = np.linalg.inv(mat)
     cam2base = np.matmul(upper2base, cam2upper)
-    """ 
-    All the frames in ROS are right handed, but the frame of JAKA base_link is left-handed. Therefore, a 
-    transformation from right-handed frame to left-handed frame is necessary.
-    """
-    cam2base = np.matmul(right2left, cam2base)
-    cam2base = np.matmul(cam2base, right2left)
 
 
 if __name__ == '__main__':

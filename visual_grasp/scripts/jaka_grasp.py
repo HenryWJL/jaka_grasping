@@ -31,8 +31,9 @@ def init():
 def callback(pose):
     # Set the target pose to what is published on the topic 'object_pose'
     global joint_target_pose
-    tcp_target_pose = [pose.twist.linear.x * 1000, pose.twist.linear.y * 1000, 130,   # The target pose w.r.t
-                       -3.106103956567233, -0.027290779839484594, 2.399677252426657]  # the Cartesian space
+    # Obtain the target pose w.r.t the Cartesian space
+    tcp_target_pose = [pose.twist.linear.x * 1000, pose.twist.linear.y * 1000, 130,
+                       -3.106103956567233, -0.027290779839484594, 2.399677252426657]  # here the unit of x, y, z is mm
     ret = robot.kine_inverse(joint_start_pose, tcp_target_pose)  # Calculate the target pose w.r.t the joint space
     if ret[0] == 0:
         joint_target_pose = ret[1]
@@ -45,27 +46,27 @@ def callback(pose):
 def grasp_and_place():
     # Perform the grasping and placing tasks
     ret = robot.joint_move(joint_target_pose, 0, True, 2)  # Move to the target position
-    time.sleep(2)
+    time.sleep(1)
     if ret[0] == 0:
-        ret = robot.linear_move([0, 0, -17, 0, 0, 0], 1, True, 5)  # Move 17 mm down the z axis
-        time.sleep(2)
+        ret = robot.linear_move([0, 0, -20, 0, 0, 0], 1, True, 10)  # Move 20 mm down the z axis
+        time.sleep(1)
         if ret[0] == 0:
 
             # grasp the object
 
             print("Successful grasp!")
-            time.sleep(2)
+            time.sleep(1)
             ret = robot.joint_move(joint_place_pose, 0, True, 2)  # Move to the placing position
             if ret[0] == 0:
 
                 # place the object
 
                 print("Successful place!")
-                time.sleep(2)
+                time.sleep(1)
                 ret = robot.joint_move(joint_start_pose, 0, True, 2)  # Back to the original position
                 if ret[0] == 0:
                     rospy.loginfo("Back to the original position!")
-                    time.sleep(2)
+                    time.sleep(1)
                     return True
 
                 else:
