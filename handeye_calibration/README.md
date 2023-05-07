@@ -24,4 +24,4 @@ roslaunch jaka_ros_driver start.launch
 ```bash
 rosrun handeye_calibration hand_to_eye_calib.py
 ```
-When everything is prepared, move the calibration target and type 'r' in the terminal to record calibration data. After recording more than one data, type 'c' in the terminal to calculate the calibration result. After a few seconds, you can view the result on the screen. If you want to save the result, type 's' in the terminal. This will save the result as a **.yaml** file.
+When everything is prepared, move the calibration target and type 'r' in the terminal to record calibration data. After recording more than two data, type 'c' in the terminal to calculate the calibration result. After a few seconds, you can view the result on the screen. If you want to save the result, type 's' in the terminal. This will save the result as a **.yaml** file.
