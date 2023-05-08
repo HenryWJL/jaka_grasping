@@ -1,19 +1,6 @@
 # Visual Grasp
 
-In the **find_obejct_3d.launch** file, modify the following contents:
-```launch
-<arg name="rgb_topic"         default="/camera/color/image_raw"/>
-<arg name="depth_topic"       default="/camera/depth/image_rect_raw"/>
-<arg name="camera_info_topic" default="/camera/color/camera_info"/>
-```
-Add the following contents to the right places:
-```launch
-<arg name="target_frame_id"   default="/camera_link"/>
-```
-```launch
-<param name="target_frame_id" value="$(arg target_frame_id)" type="str"/>
-```
-After doing so, the launch file will be like:
+Modify the **find_obejct_3d.launch** file as below:
 ```launch
 <launch>
 	<!-- Example finding 3D poses of the objects detected -->
