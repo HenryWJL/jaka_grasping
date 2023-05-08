@@ -43,13 +43,6 @@ roslaunch visual_grasp object_detection.launch
 ```bash
 roslaunch visual_grasp object_detection_aruco.launch
 ```
-In the **object_detection_aruco.launch** file, modify the following two arguments' values:
-```launch
-<launch>
-     
-    <arg name="markerId"        default="250"/>
-    <arg name="markerSize"      default="0.4"/> 
-```
 
 ### Step 3: Start object location
 ```bash
