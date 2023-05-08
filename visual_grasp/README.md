@@ -1,6 +1,6 @@
 # Visual Grasp
 
-Modify the **find_obejct_3d.launch** file as below:
+Modify the **find_object_3d.launch** file as below:
 ```launch
 <launch>
 	<!-- Example finding 3D poses of the objects detected -->
