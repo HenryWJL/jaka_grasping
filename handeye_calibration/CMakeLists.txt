@@ -10,6 +10,7 @@ project(handeye_calibration)
 find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
