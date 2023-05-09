@@ -35,21 +35,21 @@ source devel/setup.bash
 
 ## Configuration
 
-#### (1) Modify the value of "robot_ip" in the **/jaka_ros_driver/launch/start.launch** file:  
+#### (1) Modify the value of "robot_ip" in the "/jaka_ros_driver/launch/start.launch" file:  
 ```launch
 <launch>
   <param name="robot_ip" value="192.168.1.100" type="str" />
  ```
 #### (2) Modify the ...... in DH-gripper
 
-#### (3) Modify the values of "markerId" and "markerSize" in the **/visual_grasp/launch/object_detection_aruco.launch** file: 
+#### (3) Modify the values of "markerId" and "markerSize" in the "/visual_grasp/launch/object_detection_aruco.launch" file: 
 ```launch
 <launch>
      
     <arg name="markerId"        default="250"/>
     <arg name="markerSize"      default="0.4"/>
 ```
-#### (4) Modify the **/find_object_2d/launch/ros1/find_object_3d.launch** like this:
+#### (4) Modify the "/find_object_2d/launch/ros1/find_object_3d.launch" like this:
 ```launch
 <launch>
 	<!-- Example finding 3D poses of the objects detected -->
@@ -96,7 +96,7 @@ source devel/setup.bash
 - [handeye_calibration](https://github.com/HenryWJL/jaka_grasping/tree/main/handeye_calibration)
 
 ### Step 2: Start object detection node
-There are two options for you. One is using ROS **find-object-2d** package to detect objects. This requires you to provide a template for the camera to identify. The other is using **ArUco** to detect objects. You need to paste an ArUco target on the object and modify the arguments' values in the relevant launch file. Moreover, before you run the following commands, make some modifications to the relevant launch file. See [here](https://github.com/HenryWJL/jaka_grasping/tree/main/visual_grasp).
+There are two options for you. One is using ROS **find-object-2d** package to detect objects. This requires you to provide a template for the camera to identify. The other is using **ArUco** to detect objects. You need to paste an ArUco target on the object and modify the arguments' values in the relevant launch file.
 
 - Using find-object-2d
 ```bash
