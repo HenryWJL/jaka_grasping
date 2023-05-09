@@ -35,8 +35,11 @@ source devel/setup.bash
 
 ## Configuration
 
-#### (1) Modify the  
-
+#### (1) Modify the robot ip in the **/jaka_ros_driver/launch/start.launch** file.  
+```launch
+<launch>
+  <param name="robot_ip" value="192.168.1.100" type="str" />
+ ```
 
 ## Usage Instructions
 
