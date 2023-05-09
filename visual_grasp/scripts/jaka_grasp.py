@@ -5,6 +5,7 @@ import rospy
 import jkrc
 from geometry_msgs.msg import TwistStamped
 import time
+from math import pi
 
 robot = jkrc.RC("192.168.200.100")  # Modify the robot ip to your own
 joint_start_pose = []  # the original joint position of the robot
@@ -48,40 +49,48 @@ def grasp_and_place():
     ret = robot.joint_move(joint_target_pose, 0, True, 2)  # Move to the target position
     time.sleep(1)
     if ret[0] == 0:
-        ret = robot.linear_move([0, 0, -20, 0, 0, 0], 1, True, 10)  # Move 20 mm down the z axis
+        ret = robot.joint_move([0, 0, 0, 0, 0, pi/2], 1, True, 2)  # Adjust the gripper's pose
         time.sleep(1)
         if ret[0] == 0:
-
-            # grasp the object
-
-            print("Successful grasp!")
+            ret = robot.linear_move([0, 0, -20, 0, 0, 0], 1, True, 10)  # Move 20 mm down the z axis
             time.sleep(1)
-            ret = robot.joint_move(joint_place_pose, 0, True, 2)  # Move to the placing position
             if ret[0] == 0:
 
-                # place the object
+                # grasp the object
 
-                print("Successful place!")
+                print("Successful grasp!")
                 time.sleep(1)
-                ret = robot.joint_move(joint_start_pose, 0, True, 2)  # Back to the original position
+                ret = robot.joint_move(joint_place_pose, 0, True, 2)  # Move to the placing position
                 if ret[0] == 0:
-                    rospy.loginfo("Back to the original position!")
+
+                    # place the object
+
+                    print("Successful place!")
                     time.sleep(1)
-                    return True
+                    ret = robot.joint_move(joint_start_pose, 0, True, 2)  # Back to the original position
+                    if ret[0] == 0:
+                        rospy.loginfo("Back to the original position!")
+                        time.sleep(1)
+                        return True
+
+                    else:
+                        rospy.logwarn("Failed to go back to the original position!")
+                        print("Failed to go back to the original position!")
+                        return False
 
                 else:
-                    rospy.logwarn("Failed to go back to the original position!")
-                    print("Failed to go back to the original position!")
+                    rospy.logwarn("Failed to move to the place position!")
+                    print("Failed to move to the place position!")
                     return False
 
             else:
-                rospy.logwarn("Failed to move to the place position!")
-                print("Failed to move to the place position!")
+                rospy.logwarn("Failed to move down the gripper!")
+                print("Failed to move down the gripper!")
                 return False
 
         else:
-            rospy.logwarn("Failed to move to the target position!")
-            print("Failed to move to the target position!")
+            rospy.logwarn("Failed to adjust the gripper's pose!")
+            print("Failed to adjust the gripper's pose!")
             return False
 
     else:
