@@ -30,6 +30,9 @@ catkin_make
 source devel/setup.bash
 ```
 
+## Configuration
+
+
 ## Usage Instructions
 
 ### Step 1: Hand-eye calibration
