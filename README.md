@@ -1,6 +1,6 @@
 # RGB-D Camera Based Robotic Grasping
 
-These are the packages for performing visual grasp based on **Intel Realsense D455 camera**, **JAKA MiniCobo robot** and **DH-Robotic PGE-50-26 gripper**. For more information, please see [here](https://github.com/HenryWJL/RGB-D_Camera_Based_Robotic_Grasping_Project).
+These are the packages for performing visual grasp based on **Intel Realsense D455 camera**, **JAKA MiniCobo robot** and **DH-Robotic PGE-50-26 gripper**. To fulfill the functions of this package, you need to install some extra packages and make some modifications to the launch files. Follow the instructions below to complete the grasping task. For more information, please see [here](https://github.com/HenryWJL/RGB-D_Camera_Based_Robotic_Grasping_Project).
 
 ## Installation Instructions
 
