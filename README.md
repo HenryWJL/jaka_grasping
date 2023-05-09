@@ -8,19 +8,22 @@ These are the packages for performing visual grasp based on **JAKA MiniCobo** an
 - [librealsense](https://github.com/IntelRealSense/librealsense)
 - [realsense-ros](https://github.com/IntelRealSense/realsense-ros/tree/ros1-legacy)
 
-### Step 2: Download ArUco ROS package 
+### Step 2: Download DH-gripper ROS package
+- [dh_gripper_ros](https://github.com/DH-Robotics/dh_gripper_ros)
+
+### Step 3: Download ArUco ROS package 
 - [aruco_ros](https://github.com/pal-robotics/aruco_ros)
 
-### Step 3: Download find-object-2d ROS package
+### Step 4: Download find-object-2d ROS package
 - [find-object](https://github.com/introlab/find-object)
 
-### Step 4: Clone this repository to your workspace
+### Step 5: Clone this repository to your workspace
 ```bash
 cd ~/Your Worksapce/src
 git clone https://github.com/HenryWJL/jaka_grasping.git
 ```
 
-### Step 5: 
+### Step 6: Compile
 ```bash
 cd ..
 catkin_make
