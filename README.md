@@ -49,6 +49,8 @@ source devel/setup.bash
     <arg name="Connectport"  default="/dev/ttyUSB0"/>
     <arg name="Baudrate"     default="115200"/>
     <arg name="test_run"     default="true"/>
+    ...
+</launch>
 ```
 #### (3) Modify the values of "markerId" and "markerSize" in the "/visual_grasp/launch/object_detection_aruco.launch": 
 ```launch
@@ -56,6 +58,8 @@ source devel/setup.bash
      
     <arg name="markerId"        default="250"/>
     <arg name="markerSize"      default="0.4"/>
+    ...
+</launch>
 ```
 #### (4) Modify the "/find_object_2d/launch/ros1/find_object_3d.launch" like this:
 ```launch
