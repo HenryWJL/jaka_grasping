@@ -35,14 +35,22 @@ source devel/setup.bash
 
 ## Modification
 
-#### (1) Modify the value of "robot_ip" in the "/jaka_ros_driver/launch/start.launch" file:  
+#### (1) Modify the value of "robot_ip" in the "/jaka_ros_driver/launch/start.launch":  
 ```launch
 <launch>
   <param name="robot_ip" value="192.168.1.100" type="str" />
  ```
-#### (2) Modify the ...... in DH-gripper
+#### (2) Modify the values of the following arguments in the "/dh_gripper_driver/launch/dh_gripper.launch":
+```launch
+<launch>
 
-#### (3) Modify the values of "markerId" and "markerSize" in the "/visual_grasp/launch/object_detection_aruco.launch" file: 
+    <arg name="GripperID"    default="1"/>
+    <arg name="GripperModel" default="PGE"/>
+    <arg name="Connectport"  default="/dev/ttyUSB0"/>
+    <arg name="Baudrate"     default="115200"/>
+    <arg name="test_run"     default="true"/>
+```
+#### (3) Modify the values of "markerId" and "markerSize" in the "/visual_grasp/launch/object_detection_aruco.launch": 
 ```launch
 <launch>
      
