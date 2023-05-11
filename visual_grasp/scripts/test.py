@@ -5,6 +5,7 @@ import transforms3d as tfs
 from math import pi
 import numpy as np
 import tf
+from dh_gripper_msgs.msg import GripperCtrl
 
 # target_pose = [-266.4363286039594, -15.709620237819116, 328.4071097998305,
 #                516.6579082169311, 636.6877768864314, -523.3736902150538]
