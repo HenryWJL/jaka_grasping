@@ -35,12 +35,12 @@ source devel/setup.bash
 
 ## Modification
 
-#### (1) Modify the value of `robot_ip` in the "/jaka_ros_driver/launch/start.launch":  
+#### (1) Modify the value of `robot_ip` in the `/jaka_ros_driver/launch/start.launch`:  
 ```launch
 <launch>
   <param name="robot_ip" value="192.168.1.100" type="str" />
  ```
-#### (2) Modify the values of the following arguments in the "/dh_gripper_driver/launch/dh_gripper.launch":
+#### (2) Modify the values of the following arguments in the `/dh_gripper_driver/launch/dh_gripper.launch`:
 ```launch
 <launch>
 
@@ -52,7 +52,7 @@ source devel/setup.bash
     ...
 </launch>
 ```
-#### (3) Modify the values of "markerId" and "markerSize" in the "/visual_grasp/launch/object_detection_aruco.launch": 
+#### (3) Modify the values of `markerId` and `markerSize` in the `/visual_grasp/launch/object_detection_aruco.launch`: 
 ```launch
 <launch>
      
@@ -61,7 +61,7 @@ source devel/setup.bash
     ...
 </launch>
 ```
-#### (4) Modify the "/find_object_2d/launch/ros1/find_object_3d.launch" like this:
+#### (4) Modify the `/find_object_2d/launch/ros1/find_object_3d.launch` like this:
 ```launch
 <launch>
 	<!-- Example finding 3D poses of the objects detected -->
