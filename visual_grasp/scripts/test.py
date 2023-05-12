@@ -25,8 +25,9 @@ robot.enable_robot()
 # cam2base = np.matmul(up2base, cam2up)
 # print(cam2base)
 # ret = robot.joint_move([0, 0, 0, 0, 0, -pi], 1, True, 2)
+ret = robot.linear_move([0, 0, 20, 0, 0, 0], 1, True, 10)
 while True:
-    ret = robot.get_joint_position()
+    ret = robot.get_tcp_position()
     target_pose = ret[1]
     print(target_pose)
     time.sleep(3)

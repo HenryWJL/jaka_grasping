@@ -1,0 +1,23 @@
+<launch>
+  
+    <arg name="GripperID"    default="1" />
+    <arg name="GripperModel" default="PGE" />
+    <arg name="Connectport"  default="/dev/ttyUSB0" />
+    <arg name="Baudrate"     default="115200" />
+    <arg name="test_run"     default="false" />
+    
+    <arg name="robot_ip"     default="192.168.200.100"/>
+    
+    <include file="$(find dh_gripper_driver)/launch/dh_gripper.launch">
+        <param name="Gripper_ID" type="string" value="$(arg GripperID)" />
+        <param name="Gripper_Model" type="string" value="$(arg GripperModel)" />
+        <param name="Connect_port" type="string" value="$(arg Connectport)" />
+        <param name="BaudRate" type="string" value="$(arg Baudrate)" />
+        <arg name="test_run" value="$(arg test_run)" />
+    </include>
+    
+    <include file="$(find jaka_ros_driver)/launch/start.launch">
+        <param name="robot_ip" type="str" value="$(arg robot_ip)" />
+    </include>
+  
+</launch>

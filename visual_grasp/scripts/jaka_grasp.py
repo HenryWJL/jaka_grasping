@@ -46,7 +46,7 @@ def callback(pose):
     global joint_target_pose
     # Obtain the target pose w.r.t the Cartesian space
     tcp_target_pose = [pose.twist.linear.x * 1000, pose.twist.linear.y * 1000, 130,
-                       -3.106103956567233, -0.027290779839484594, 2.399677252426657]  # here the unit of x, y, z is mm
+                       3.140934315898051, 0.01111077693116226, 0.7647058015683122]  # here the unit of x, y, z is mm
     ret = robot.kine_inverse(joint_start_pose, tcp_target_pose)  # Calculate the target pose w.r.t the joint space
     if ret[0] == 0:
         joint_target_pose = ret[1]
@@ -61,48 +61,40 @@ def grasp_and_place(publisher, publish_rate):
     ret = robot.joint_move(joint_target_pose, 0, True, 2)  # Move to the target position
     time.sleep(1)
     if ret[0] == 0:
-        ret = robot.joint_move([0, 0, 0, 0, 0, pi/2], 1, True, 2)  # Adjust the gripper's pose
+        ret = robot.linear_move([0, 0, -20, 0, 0, 0], 1, True, 10)  # Move 20 mm down the z axis
         time.sleep(1)
         if ret[0] == 0:
-            ret = robot.linear_move([0, 0, -20, 0, 0, 0], 1, True, 10)  # Move 20 mm down the z axis
+            for idx in range(10):  # grasp the object
+                publisher.publish(gripper_close)
+                publish_rate.sleep()
+            print("Successful grasp!")
             time.sleep(1)
+            ret = robot.joint_move(joint_place_pose, 0, True, 2)  # Move to the placing position
             if ret[0] == 0:
-                for idx in range(10):  # grasp the object
-                    publisher.publish(gripper_close)
+                for idx in range(10):  # place the object
+                    publisher.publish(gripper_open)
                     publish_rate.sleep()
-                print("Successful grasp!")
+                print("Successful place!")
                 time.sleep(1)
-                ret = robot.joint_move(joint_place_pose, 0, True, 2)  # Move to the placing position
+                ret = robot.joint_move(joint_start_pose, 0, True, 2)  # Back to the original position
                 if ret[0] == 0:
-                    for idx in range(10):  # place the object
-                        publisher.publish(gripper_open)
-                        publish_rate.sleep()
-                    print("Successful place!")
+                    rospy.loginfo("Back to the original position!")
                     time.sleep(1)
-                    ret = robot.joint_move(joint_start_pose, 0, True, 2)  # Back to the original position
-                    if ret[0] == 0:
-                        rospy.loginfo("Back to the original position!")
-                        time.sleep(1)
-                        return True
-
-                    else:
-                        rospy.logwarn("Failed to go back to the original position!")
-                        print("Failed to go back to the original position!")
-                        return False
+                    return True
 
                 else:
-                    rospy.logwarn("Failed to move to the place position!")
-                    print("Failed to move to the place position!")
+                    rospy.logwarn("Failed to go back to the original position!")
+                    print("Failed to go back to the original position!")
                     return False
 
             else:
-                rospy.logwarn("Failed to move down the gripper!")
-                print("Failed to move down the gripper!")
+                rospy.logwarn("Failed to move to the place position!")
+                print("Failed to move to the place position!")
                 return False
 
         else:
-            rospy.logwarn("Failed to adjust the gripper's pose!")
-            print("Failed to adjust the gripper's pose!")
+            rospy.logwarn("Failed to move down the gripper!")
+            print("Failed to move down the gripper!")
             return False
 
     else:
