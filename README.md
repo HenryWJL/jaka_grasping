@@ -35,7 +35,7 @@ source devel/setup.bash
 
 ## Modification
 
-#### (1) Modify the value of "robot_ip" in the "/jaka_ros_driver/launch/start.launch":  
+#### (1) Modify the value of </br>`robot_ip`</br> in the "/jaka_ros_driver/launch/start.launch":  
 ```launch
 <launch>
   <param name="robot_ip" value="192.168.1.100" type="str" />
