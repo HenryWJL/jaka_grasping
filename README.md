@@ -108,7 +108,7 @@ source devel/setup.bash
 - [handeye_calibration](https://github.com/HenryWJL/jaka_grasping/tree/main/handeye_calibration)
 
 ### Step 2: Start object detection node
-There are two options for you. One is using ROS **find-object-2d** package to detect objects. This requires you to provide a template for the camera to identify. The other is using **ArUco** to detect objects. You need to paste an ArUco target on the object and modify the arguments' values in the relevant launch file (see **Modification**).
+There are two options for you. One is using ROS `find-object-2d` package to detect objects. This requires you to provide a template for the camera to identify. The other is using **ArUco** to detect objects. You need to paste an ArUco target on the object and modify the arguments' values in the relevant launch file (see `Modification`).
 
 - Using find-object-2d
 ```bash
