@@ -17,16 +17,19 @@ These are the packages for performing visual grasp based on **Intel Realsense D4
 ### Step 4: Download ArUco ROS package 
 - [aruco_ros](https://github.com/pal-robotics/aruco_ros)
 
-### Step 5: Download find-object-2d ROS package
+### Step 5: Download Apriltag ROS package
+- [apriltag_ros](https://github.com/AprilRobotics/apriltag_ros)
+
+### Step 6: Download find-object-2d ROS package (option)
 - [find-object](https://github.com/introlab/find-object)
 
-### Step 6: Clone this repository to your workspace
+### Step 7: Clone this repository to your workspace
 ```bash
 cd ~/Your Worksapce/src
 git clone https://github.com/HenryWJL/jaka_grasping.git
 ```
 
-### Step 7: Compile
+### Step 8: Compile
 ```bash
 cd ..
 catkin_make
@@ -61,7 +64,7 @@ source devel/setup.bash
     ...
 </launch>
 ```
-#### (4) Modify the `/find_object_2d/launch/ros1/find_object_3d.launch` like this:
+#### (4) Modify the `/find_object_2d/launch/ros1/find_object_3d.launch` like this (option):
 ```launch
 <launch>
 	<!-- Example finding 3D poses of the objects detected -->
