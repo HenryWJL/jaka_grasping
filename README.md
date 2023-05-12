@@ -38,7 +38,7 @@ source devel/setup.bash
 
 ## Modification
 
-#### (1) Modify the values of the following arguments in the `/visual_grasp/launch/robot_init.launch`:
+#### (1) Modify the following arguments in the `/visual_grasp/launch/robot_init.launch`:
 ```launch
 <launch>
 	
@@ -52,7 +52,7 @@ source devel/setup.bash
     ...
 </launch>
  ```
-#### (2) Modify the values of the following arguments in the `/visual_grasp/launch/object_detection_aruco.launch`: 
+#### (2) Modify the following arguments in the `/visual_grasp/launch/object_detection_aruco.launch`: 
 ```launch
 <launch>
 
@@ -63,10 +63,17 @@ source devel/setup.bash
     ...
 </launch>
 ```
-#### (3) Modify the values of ... in the apriltag
+#### (3) Modify the following arguments in the `/apriltag_ros/launch/continuous_detection.launch`:
 ```launch
-```
+<launch>
 
+    <arg name="image_topic"       default="/camera/color/image_raw"/>
+    <arg name="camera_info"       default="/camera/color/camera_info"/>
+    <arg name="publish_tag_image" default="true" />
+    <arg name="queue_size"        default="$(arg queue_size)" />
+    ...
+</launch>
+```
 #### (4) Modify the `/find_object_2d/launch/ros1/find_object_3d.launch` like this (option):
 ```launch
 <launch>
