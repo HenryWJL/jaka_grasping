@@ -10,7 +10,14 @@ This package is used for hand-eye calibration. **Intel Realsense D455** camera a
 
 ### Step 2: Modify the values of the following arguments in the `/handeye_calibration/launch/aruco_start.launch`
 ```launch
+<launch>
 
+    <arg name="image_topic"     default="/camera/color/image_raw"/>
+    <arg name="camera_info"     default="/camera/color/camera_info"/> 
+    <arg name="markerId"        default="250"/>
+    <arg name="markerSize"      default="0.4"/>
+    ...
+</launch>
 ```
 
 ### Step 3: Start the camera node
