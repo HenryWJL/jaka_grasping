@@ -38,24 +38,21 @@ source devel/setup.bash
 
 ## Modification
 
-#### (1) Modify the value of `robot_ip` in the `/jaka_ros_driver/launch/start.launch`:  
+#### (1) Modify the values of the following arguments in the `/visual_grasp/launch/robot_init.launch`:
 ```launch
 <launch>
-  <param name="robot_ip" value="192.168.1.100" type="str" />
- ```
-#### (2) Modify the values of the following arguments in the `/dh_gripper_driver/launch/dh_gripper.launch`:
-```launch
-<launch>
-
+	
     <arg name="GripperID"    default="1"/>
     <arg name="GripperModel" default="PGE"/>
     <arg name="Connectport"  default="/dev/ttyUSB0"/>
     <arg name="Baudrate"     default="115200"/>
-    <arg name="test_run"     default="true"/>
+    <arg name="test_run"     default="false"/>
+	
+    <arg name="robot_ip"     default="192.168.200.100"/>
     ...
 </launch>
-```
-#### (3) Modify the values of `markerId` and `markerSize` in the `/visual_grasp/launch/object_detection_aruco.launch`: 
+ ```
+#### (2) Modify the values of `markerId` and `markerSize` in the `/visual_grasp/launch/object_detection_aruco.launch`: 
 ```launch
 <launch>
      
@@ -64,6 +61,10 @@ source devel/setup.bash
     ...
 </launch>
 ```
+#### (3) Modify the values of ... in the apriltag
+```launch
+```
+
 #### (4) Modify the `/find_object_2d/launch/ros1/find_object_3d.launch` like this (option):
 ```launch
 <launch>
@@ -110,7 +111,11 @@ source devel/setup.bash
 ### Step 1: Hand-eye calibration
 - [handeye_calibration](https://github.com/HenryWJL/jaka_grasping/tree/main/handeye_calibration)
 
-### Step 2: Start object detection node
+### Step 2: Enable robot and gripper
+```bash
+roslaunch visual_grasp robot_init.launch
+```
+### Step 3: Start object detection node
 There are two options for you. One is using ROS `find-object-2d` package to detect objects. This requires you to provide a template for the camera to identify. The other is using **ArUco** to detect objects. You need to paste an ArUco target on the object and modify the arguments' values in the relevant launch file (see **Modification**).
 
 - Using find-object-2d
@@ -121,18 +126,11 @@ roslaunch find_object_2d find_object_3d.launch
 ```bash
 roslaunch visual_grasp object_detection_aruco.launch
 ```
-
-### Step 3: Start object location node
+### Step 4: Start object location node
 ```bash
-rosrun  visual_grasp object_location.py
+rosrun visual_grasp object_location.py
 ```
-
-### Step 4: Enable DH-gripper
-```bash
-roslaunch dh_gripper_driver dh_gripper.launch
-```
-
-### Step 4: Start grasping
+### Step 5: Start grasping
 ```bash
 rosrun visual_grasp jaka_grasp.py
 ```
