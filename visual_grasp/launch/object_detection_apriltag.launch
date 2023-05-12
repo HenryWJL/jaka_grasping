@@ -1,0 +1,15 @@
+<launch>
+
+    <arg name="image_topic"       default="/camera/color/image_raw"/>
+    <arg name="camera_info"       default="/camera/color/camera_info"/>
+    <arg name="publish_tag_image" default="true" />
+    <arg name="queue_size"        default="$(arg queue_size)" />
+    
+    <include file="$(find apriltag_ros)/launch/continuous_detection.launch">
+        <remap from="image_rect" to="$(arg image_topic)" />
+        <remap from="camera_info" to="$(arg camera_info)" />
+        <param name="publish_tag_detections_image" type="bool" value="$(arg publish_tag_image)" />
+        <param name="queue_size" type="int" value="$(arg queue_size)" />
+    </include>
+
+</launch>

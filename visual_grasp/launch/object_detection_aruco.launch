@@ -1,5 +1,7 @@
 <launch>
-     
+    
+    <arg name="image_topic"       default="/camera/color/image_raw"/>
+    <arg name="camera_info"       default="/camera/color/camera_info"/> 
     <arg name="markerId"        default="250"/>
     <arg name="markerSize"      default="0.04"/>    
     <arg name="eye"             default="left"/>
@@ -8,8 +10,8 @@
     <arg name="corner_refinement" default="LINES" /> 
     
     <node pkg="aruco_ros" type="single" name="aruco_single">
-        <remap from="/camera_info" to="/camera/color/camera_info" />
-        <remap from="/image" to="/camera/color/image_raw" />
+        <remap from="/camera_info" to="$(arg camera_info)" />
+        <remap from="/image" to="$(arg image_topic)" />
         <param name="image_is_rectified" value="True"/>
         <param name="marker_size"        value="$(arg markerSize)"/>
         <param name="marker_id"          value="$(arg markerId)"/>
