@@ -52,10 +52,12 @@ source devel/setup.bash
     ...
 </launch>
  ```
-#### (2) Modify the values of `markerId` and `markerSize` in the `/visual_grasp/launch/object_detection_aruco.launch`: 
+#### (2) Modify the values of the following arguments in the `/visual_grasp/launch/object_detection_aruco.launch`: 
 ```launch
 <launch>
-     
+
+    <arg name="image_topic"     default="/camera/color/image_raw"/>
+    <arg name="camera_info"     default="/camera/color/camera_info"/> 
     <arg name="markerId"        default="250"/>
     <arg name="markerSize"      default="0.4"/>
     ...
