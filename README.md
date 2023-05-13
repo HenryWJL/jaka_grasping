@@ -43,7 +43,7 @@ source devel_isolated/setup.bash
 
 ## Modification
 
-#### (1) Modify the following arguments in the `/visual_grasp/launch/robot_init.launch`:
+#### (1) Modify the following arguments in the `/visual_grasp/launch/gripper_init.launch`:
 ```launch
 <launch>
 	
@@ -52,8 +52,6 @@ source devel_isolated/setup.bash
     <arg name="Connectport"  default="/dev/ttyUSB0"/>
     <arg name="Baudrate"     default="115200"/>
     <arg name="test_run"     default="false"/>
-	
-    <arg name="robot_ip"     default="192.168.200.100"/>
     ...
 </launch>
  ```
@@ -68,14 +66,15 @@ source devel_isolated/setup.bash
     ...
 </launch>
 ```
-#### (3) Modify the following arguments in the `/apriltag_ros/launch/continuous_detection.launch`:
+#### (3) Modify the following arguments in the `/visual_grasp/launch/object_detection_apriltag.launch`:
 ```launch
 <launch>
 
     <arg name="image_topic"       default="/camera/color/image_raw"/>
     <arg name="camera_info"       default="/camera/color/camera_info"/>
     <arg name="publish_tag_image" default="true" />
-    <arg name="queue_size"        default="$(arg queue_size)" />
+    <arg name="queue_size"        default="1" />
+    <arg name="launch_prefix"     default="" />
     ...
 </launch>
 ```
@@ -157,6 +156,10 @@ roslaunch find_object_2d find_object_3d.launch
 - Using ArUco
 ```bash
 roslaunch visual_grasp object_detection_aruco.launch
+```
+- Using AprilTag
+```bash
+roslaunch visual_grasp object_detection_apriltag.launch
 ```
 ### Step 4: Start object location node
 ```bash
