@@ -144,7 +144,7 @@ transport_hint:    "raw"
 
 ### Step 2: Enable gripper
 ```bash
-roslaunch visual_grasp robot_init.launch
+roslaunch visual_grasp gripper_init.launch
 ```
 ### Step 3: Start object detection node
 There are two options for you. One is using ROS `find-object-2d` package to detect objects. This requires you to provide a template for the camera to identify. The other is using **ArUco** to detect objects. You need to paste an ArUco target on the object and modify the arguments' values in the relevant launch file (see **Modification**).
