@@ -1,0 +1,3 @@
+        success failure
+apriltag:  93      7
+aruco:     67      33
