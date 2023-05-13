@@ -8,9 +8,8 @@
     
     <arg name="robot_ip"     default="192.168.200.100"/>
     
-    <node pkg="jaka_ros_driver" type="connect_robot" name="connect_robot" output="screen">
-        <param name="robot_ip" type="str" value="$(arg robot_ip)" />
-    </node>
+    <param name="robot_ip" type="str" value="$(arg robot_ip)" />
+    <node pkg="jaka_ros_driver" type="connect_robot" name="connect_robot" output="screen"/>
     
     <node pkg="dh_gripper_driver" type="dh_gripper_driver" name="dh_gripper_driver" respawn="true" output="screen">
         <param name="Gripper_ID" type="string" value="$(arg GripperID)" />

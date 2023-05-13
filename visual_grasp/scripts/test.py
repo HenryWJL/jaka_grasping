@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+This is used for testing during the experiment. Please omit it.
+"""
+
 import rospy
 import jkrc
 import time

@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+This is an easier practice of hand-eye calibration. 
+"""
+
 import rospy
 import numpy as np
 import transforms3d as tfs

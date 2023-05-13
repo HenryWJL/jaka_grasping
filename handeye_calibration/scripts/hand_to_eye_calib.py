@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+This is used for hand-eye calibration. Either ArUco markers or
+AprilTag markers are feasible for pose estimation.
+"""
+
 import rospy
 import numpy as np
 import cv2
@@ -9,7 +14,6 @@ from geometry_msgs.msg import TwistStamped
 from tf2_msgs.msg import TFMessage
 import time
 import yaml
-
 
 end_pose = None  # The pose of robot's end
 target_pose = None  # The pose of ArUco target
@@ -21,11 +25,10 @@ def get_gripper2base_mat(pose):
     # Calculate the gripper-to-base transformation matrix
     T_end2base = np.array((pose.twist.linear.x, pose.twist.linear.y, pose.twist.linear.z))
     R_end2base = tfs.euler.euler2mat(pose.twist.angular.x, pose.twist.angular.y, pose.twist.angular.z)
-    # end2base = np.column_stack((R_end2base, T_end2base))
-    # end2base = np.row_stack((end2base, np.array([0, 0, 0, 1])))
-    # gripper2base = np.matmul(end2base, gripper2end)
-    # return gripper2base[:3, :3], gripper2base[:3, 3]
-    return R_end2base, T_end2base
+    end2base = np.column_stack((R_end2base, T_end2base))
+    end2base = np.row_stack((end2base, np.array([0, 0, 0, 1])))
+    gripper2base = np.matmul(end2base, gripper2end)
+    return gripper2base[:3, :3], gripper2base[:3, 3]
 
 
 def get_target2cam_mat(pose):
@@ -49,7 +52,7 @@ def end_pose_callback(pose):
 def target_pose_callback(pose):
     global target_pose
     if pose is None:
-        rospy.logwarn("No ArUco target data!")
+        rospy.logwarn("No ArUco or AprilTag data!")
 
     else:
         target_pose = pose
@@ -79,7 +82,7 @@ if __name__ == '__main__':
                 continue
 
             if target_pose is None:
-                rospy.logwarn("Waiting for ArUco data...")
+                rospy.logwarn("Waiting for ArUco or AprilTag data...")
                 time.sleep(2)
                 continue
 
@@ -108,9 +111,11 @@ if __name__ == '__main__':
                                                                   cv2.CALIB_HAND_EYE_TSAI)
                     cam2base = np.column_stack((R_cam2base, T_cam2base))
                     cam2base = np.row_stack((cam2base, np.array([0, 0, 0, 1])))
-                    print(cam2base)
-                    cam2base_qua = tfs.quaternions.mat2quat(cam2base)
-                    print(cam2base_qua)
+                    print(cam2base)  # Transformation matrix
+                    R_cam2base_quaternions = tfs.quaternions.mat2quat(R_cam2base)
+                    cam2base_quaternions = np.concatenate((T_cam2base.reshape(3),
+                                                           R_cam2base_quaternions.reshape(4)), axis=0)
+                    print(cam2base_quaternions.tolist())  # Quaternions
 
             elif command == 's':
                 if cam2base is None:
@@ -118,8 +123,9 @@ if __name__ == '__main__':
 
                 else:
                     # Modify the following file saving path to your own
-                    with open('./jaka_ws/src/jaka_grasping/handeye_calibration/yaml/camera_to_base_matrix_apriltag.yaml',
-                              'w', encoding='utf-8') as f:
+                    with open(
+                            './jaka_ws/src/jaka_grasping/handeye_calibration/yaml/camera_to_base_matrix_apriltag.yaml',
+                            'w', encoding='utf-8') as f:
                         yaml.dump(data=cam2base.tolist(), stream=f)
                     break
 

@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+This is used for objects localization. The published pose
+is the position of the object w.r.t the robot's base_link.
+"""
+
 import rospy
 import numpy as np
 import yaml
