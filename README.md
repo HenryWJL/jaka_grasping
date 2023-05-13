@@ -96,46 +96,6 @@ max_hamming_dist:  2
 publish_tf:        true       
 transport_hint:    "raw"
 ```
-#### (5) Modify the `/find_object_2d/launch/ros1/find_object_3d.launch` like this (option):
-```launch
-<launch>
-	<!-- Example finding 3D poses of the objects detected -->
-	<!-- $roslaunch openni_launch openni.launch depth_registration:=true -->
-	
-	<arg name="object_prefix"     default="object"/>
-	<arg name="objects_path"      default=""/>
-	<arg name="gui"               default="true"/>
-	<arg name="approx_sync"       default="true"/>
-	<arg name="pnp"               default="true"/>
-	<arg name="tf_example"        default="true"/>
-	<arg name="settings_path"     default="~/.ros/find_object_2d.ini"/>
-	<arg name="target_frame_id"   default="/camera_link"/>
-	
-	<arg name="rgb_topic"         default="/camera/color/image_raw"/>
-        <arg name="depth_topic"       default="/camera/depth/image_rect_raw"/>
-        <arg name="camera_info_topic" default="/camera/color/camera_info"/>
-	
-	<node name="find_object_3d" pkg="find_object_2d" type="find_object_2d" output="screen">
-		<param name="gui" value="$(arg gui)" type="bool"/>
-		<param name="settings_path" value="$(arg settings_path)" type="str"/>
-		<param name="subscribe_depth" value="true" type="bool"/>
-		<param name="objects_path" value="$(arg objects_path)" type="str"/>
-		<param name="object_prefix" value="$(arg object_prefix)" type="str"/>
-		<param name="approx_sync" value="$(arg approx_sync)" type="bool"/>
-		<param name="pnp" value="$(arg pnp)" type="bool"/>
-		
-		<remap from="rgb/image_rect_color" to="$(arg rgb_topic)"/>
-		<remap from="depth_registered/image_raw" to="$(arg depth_topic)"/>
-		<remap from="depth_registered/camera_info" to="$(arg camera_info_topic)"/>
-	</node>
-	
-	<!-- Example of tf synchronisation with the objectsStamped message -->
-	<node if="$(arg tf_example)" name="tf_example" pkg="find_object_2d" type="tf_example" output="screen">
-		<param name="object_prefix" value="$(arg object_prefix)" type="str"/>
-		<param name="target_frame_id" value="$(arg target_frame_id)" type="str"/>
-	</node>
-</launch>
-```
 
 ## Usage Instructions
 
@@ -147,19 +107,15 @@ transport_hint:    "raw"
 roslaunch visual_grasp gripper_init.launch
 ```
 ### Step 3: Start object detection node
-There are two options for you. One is using ROS `find-object-2d` package to detect objects. This requires you to provide a template for the camera to identify. The other is using **ArUco** to detect objects. You need to paste an ArUco target on the object and modify the arguments' values in the relevant launch file (see **Modification**).
+There are two options for you. One is using **AprilTag**, the other is using **ArUco**. You need to paste an AprilTag marker or an ArUco marker on the object and modify the arguments in the relevant launch file (see **Modification**).
 
-- Using find-object-2d
+- Using AprilTag
 ```bash
-roslaunch find_object_2d find_object_3d.launch
+roslaunch visual_grasp object_detection_apriltag.launch
 ```
 - Using ArUco
 ```bash
 roslaunch visual_grasp object_detection_aruco.launch
-```
-- Using AprilTag
-```bash
-roslaunch visual_grasp object_detection_apriltag.launch
 ```
 ### Step 4: Start object location node
 ```bash
