@@ -66,7 +66,7 @@ def location_publisher():
             rospy.loginfo(f'Object pose: {[T_object2base[0], T_object2base[1], T_object2base[2], rx, ry, rz]}')
             pub.publish(pose)
             rate.sleep()
-            time.sleep(2)
+            time.sleep(1)
         except rospy.ROSInterruptException:
             rospy.logwarn("No object data available!")
             time.sleep(2)

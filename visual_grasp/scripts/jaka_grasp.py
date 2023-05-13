@@ -63,6 +63,7 @@ def callback(pose):
 def grasp_and_place(publisher, publish_rate):
     # Perform the grasping and placing tasks
     ret = robot.joint_move(joint_target_pose, 0, True, 2)  # Move to the target position
+    time.sleep(2)
     if ret[0] == 0:
         ret = robot.linear_move([0, 0, -20, 0, 0, 0], 1, True, 10)  # Move 20 mm down the z axis
         if ret[0] == 0:
