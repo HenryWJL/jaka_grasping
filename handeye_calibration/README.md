@@ -4,11 +4,11 @@ This package is used for hand-eye calibration. **Intel Realsense D455** camera a
 
 ## Usage Instruction
 
-### Step 1: Print an ArUco target
+#### Step 1: Print an ArUco target
 - [ArUco](https://chev.me/arucogen/)
 - **Attention**: When you enter the download interface, please choose 'Original ArUco' dictionary. 
 
-### Step 2: Modify the values of the following arguments in the `/handeye_calibration/launch/aruco_start.launch`
+#### Step 2: Modify the values of the following arguments in the `/handeye_calibration/launch/aruco_start.launch`
 ```launch
 <launch>
 
@@ -20,19 +20,24 @@ This package is used for hand-eye calibration. **Intel Realsense D455** camera a
 </launch>
 ```
 
-### Step 3: Start the camera node
+#### Step 3: Start the camera node
 ```bash
 roslaunch realsense2_camera rs_camera.launch
 ```
-### Step 4: Start the aruco_ros node
+#### Step 4: Start the pose estimation node
+- ArUco
 ```bash
 roslaunch handeye_calibration aruco_start.launch
 ```
-### Step 5: Start the robot node
+- AprilTag
+```bash
+roslaunch handeye_calibration apriltag_start.launch
+```
+#### Step 5: Start the robot node
 ```bash
 roslaunch jaka_ros_driver start.launch
 ```
-### Step 6: Start the calibration node. 
+#### Step 6: Start the calibration node. 
 ```bash
 rosrun handeye_calibration hand_to_eye_calib.py
 ```
