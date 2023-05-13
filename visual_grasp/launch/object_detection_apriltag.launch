@@ -4,12 +4,20 @@
     <arg name="camera_info"       default="/camera/color/camera_info"/>
     <arg name="publish_tag_image" default="true" />
     <arg name="queue_size"        default="1" />
+    <arg name="launch_prefix"     default="" />
     
-    <include file="$(find apriltag_ros)/launch/continuous_detection.launch">
+    <node pkg="apriltag_ros" type="apriltag_ros_continuous_node" name="apriltag_ros_continuous_node" clear_params="true" output="screen" launch-prefix="$(arg launch_prefix)">
         <remap from="image_rect" to="$(arg image_topic)" />
         <remap from="camera_info" to="$(arg camera_info)" />
         <param name="publish_tag_detections_image" type="bool" value="$(arg publish_tag_image)" />
         <param name="queue_size" type="int" value="$(arg queue_size)" />
-    </include>
+        <rosparam command="load" file="$(find visual_grasp)/config/settings.yaml"/>
+        <rosparam command="load" file="$(find visual_grasp)/config/tags.yaml"/>
+    </node> 
+    
+    <node pkg="image_view" type="image_view" name="image_view" respawn="false" output="screen">
+        <remap from="image" to="/tag_detections_image"/>
+        <param name="autosize" value="true" />
+    </node>
 
 </launch>
