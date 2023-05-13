@@ -15,7 +15,7 @@ This package is used for hand-eye calibration. **Intel Realsense D455** camera a
     <arg name="image_topic"     default="/camera/color/image_raw"/>
     <arg name="camera_info"     default="/camera/color/camera_info"/> 
     <arg name="markerId"        default="250"/>
-    <arg name="markerSize"      default="0.4"/>
+    <arg name="markerSize"      default="0.04"/>
     ...
 </launch>
 ```
