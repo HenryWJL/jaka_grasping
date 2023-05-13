@@ -35,6 +35,11 @@ cd ..
 catkin_make
 source devel/setup.bash
 ```
+If your workspace contains Apriltag packages, run:
+```bash
+catkin_make_isolated
+source devel_isolated/setup.bash
+```
 
 ## Modification
 
