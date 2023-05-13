@@ -74,7 +74,25 @@ source devel/setup.bash
     ...
 </launch>
 ```
-#### (4) Modify the `/find_object_2d/launch/ros1/find_object_3d.launch` like this (option):
+#### (4) Modify the parameters in the `/visual_grasp/config/tags.yaml` and `/visual_grasp/config/settings.yaml`:
+```yaml
+standalone_tags:
+  [
+     {id: 250, size: 0.0215}
+  ]
+```
+```yaml
+tag_family:        'tagStandard41h12' 
+tag_threads:       2          
+tag_decimate:      1.0        
+tag_blur:          0.0        
+tag_refine_edges:  1          
+tag_debug:         0          
+max_hamming_dist:  2          
+publish_tf:        true       
+transport_hint:    "raw"
+```
+#### (5) Modify the `/find_object_2d/launch/ros1/find_object_3d.launch` like this (option):
 ```launch
 <launch>
 	<!-- Example finding 3D poses of the objects detected -->
