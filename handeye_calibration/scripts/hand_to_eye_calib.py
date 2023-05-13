@@ -21,10 +21,11 @@ def get_gripper2base_mat(pose):
     # Calculate the gripper-to-base transformation matrix
     T_end2base = np.array((pose.twist.linear.x, pose.twist.linear.y, pose.twist.linear.z))
     R_end2base = tfs.euler.euler2mat(pose.twist.angular.x, pose.twist.angular.y, pose.twist.angular.z)
-    end2base = np.column_stack((R_end2base, T_end2base))
-    end2base = np.row_stack((end2base, np.array([0, 0, 0, 1])))
-    gripper2base = np.matmul(end2base, gripper2end)
-    return gripper2base[:3, :3], gripper2base[:3, 3]
+    # end2base = np.column_stack((R_end2base, T_end2base))
+    # end2base = np.row_stack((end2base, np.array([0, 0, 0, 1])))
+    # gripper2base = np.matmul(end2base, gripper2end)
+    # return gripper2base[:3, :3], gripper2base[:3, 3]
+    return R_end2base, T_end2base
 
 
 def get_target2cam_mat(pose):
@@ -108,6 +109,8 @@ if __name__ == '__main__':
                     cam2base = np.column_stack((R_cam2base, T_cam2base))
                     cam2base = np.row_stack((cam2base, np.array([0, 0, 0, 1])))
                     print(cam2base)
+                    cam2base_qua = tfs.quaternions.mat2quat(cam2base)
+                    print(cam2base_qua)
 
             elif command == 's':
                 if cam2base is None:
