@@ -35,7 +35,7 @@ roslaunch handeye_calibration apriltag_start.launch
 ```
 #### Step 5: Start the robot node
 ```bash
-roslaunch jaka_ros_driver start.launch
+roslaunch handeye_calibration robot_start.launch
 ```
 #### Step 6: Start the calibration node. 
 ```bash
