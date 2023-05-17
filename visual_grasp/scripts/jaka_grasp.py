@@ -63,9 +63,10 @@ def callback(pose):
 def grasp_and_place(publisher, publish_rate):
     # Perform the grasping and placing tasks
     ret = robot.joint_move(joint_target_pose, 0, True, 2)  # Move to the target position
-    time.sleep(2)
+    time.sleep(1)
     if ret[0] == 0:
         ret = robot.linear_move([0, 0, -20, 0, 0, 0], 1, True, 10)  # Move 20 mm down the z axis
+        # ret = [0]
         if ret[0] == 0:
             for idx in range(10):  # grasp the object
                 publisher.publish(gripper_close)
@@ -83,22 +84,22 @@ def grasp_and_place(publisher, publish_rate):
                     return True
 
                 else:
-                    rospy.logwarn("Failed to go back to the original position!")
+                    rospy.logerr("Failed to go back to the original position!")
                     print("Failed to go back to the original position!")
                     return False
 
             else:
-                rospy.logwarn("Failed to move to the place position!")
+                rospy.logerr("Failed to move to the place position!")
                 print("Failed to move to the place position!")
                 return False
 
         else:
-            rospy.logwarn("Failed to move down the gripper!")
+            rospy.logerr("Failed to move down the gripper!")
             print("Failed to move down the gripper!")
             return False
 
     else:
-        rospy.logwarn("Failed to move to the target position!")
+        rospy.logerr("Failed to move to the target position!")
         print("Failed to move to the target position!")
         return False
 
@@ -123,7 +124,6 @@ if __name__ == '__main__':
                     if not success:
                         res = robot.is_in_collision()
                         collision_state = res[1]
-
                         if collision_state == 1:
                             """
                             If a collision happens, the JAKA robot will turn into the "collision protection" pattern
@@ -131,11 +131,11 @@ if __name__ == '__main__':
                             pattern and terminate the program.
                             """
                             robot.motion_abort()
-                            time.sleep(3)
+                            time.sleep(1)
                             robot.collision_recover()
                             robot.logout()
                             rospy.logerr("A collision happened, please restart the program!")
-                            break
+                        break
 
             elif command == 'e':
                 robot.logout()

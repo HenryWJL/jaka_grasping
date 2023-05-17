@@ -27,5 +27,9 @@ apriltag:  93      7
 aruco:     67      33
 
 
+dim:
 
+        success failure
+apriltag: 93       7
+aruco:           
 

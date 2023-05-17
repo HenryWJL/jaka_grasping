@@ -16,7 +16,8 @@ include_directories(
 )
 
 catkin_install_python(PROGRAMS
-  scripts/hand_to_eye_calib.py scripts/easy_hand_to_eye_calib.py
+  scripts/hand_to_eye_calib.py scripts/easy_hand_to_eye_calib.py 
+  scripts/automatic_hand_to_eye_calib.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
