@@ -65,8 +65,8 @@ def grasp_and_place(publisher, publish_rate):
     ret = robot.joint_move(joint_target_pose, 0, True, 2)  # Move to the target position
     time.sleep(1)
     if ret[0] == 0:
-        ret = robot.linear_move([0, 0, -20, 0, 0, 0], 1, True, 10)  # Move 20 mm down the z axis
-        # ret = [0]
+        # ret = robot.linear_move([0, 0, -20, 0, 0, 0], 1, True, 10)  # Move 20 mm down the z axis
+        ret = [0]
         if ret[0] == 0:
             for idx in range(10):  # grasp the object
                 publisher.publish(gripper_close)

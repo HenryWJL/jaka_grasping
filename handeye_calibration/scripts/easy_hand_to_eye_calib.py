@@ -43,7 +43,11 @@ if __name__ == '__main__':
         command = str(input())
         if command == 'r':
             # Modify the following file saving path to your own
-            with open('./jaka_ws/src/jaka_grasping/handeye_calibration/yaml/camera_to_base_matrix.yaml',
+            R_cam2base_quaternions = tfs.quaternions.mat2quat(cam2base[:3, :3])
+            cam2base_quaternions = np.concatenate((cam2base[:3, 3].reshape(3),
+                                                   R_cam2base_quaternions.reshape(4)), axis=0)
+            print(cam2base_quaternions.tolist())  # Quaternions
+            with open('./jaka_ws/src/jaka_grasping/handeye_calibration/yaml/camera_to_base_matrix_aruco.yaml',
                       'w', encoding='utf-8') as f:
                 yaml.dump(data=cam2base.tolist(), stream=f)
             break
