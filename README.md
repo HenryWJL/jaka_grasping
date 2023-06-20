@@ -51,7 +51,7 @@ source devel_isolated/setup.bash
     <arg name="test_run"     default="false"/>
     ...
 </launch>
- ```
+```
 #### (2) Modify the following arguments in the `/visual_grasp/launch/object_detection_aruco.launch`: 
 ```launch
 <launch>
@@ -97,7 +97,7 @@ transport_hint:    "raw"
 ## Usage Instructions
 
 ### Step 1: Hand-eye calibration
-- [handeye_calibration](https://github.com/HenryWJL/jaka_grasping/tree/main/handeye_calibration)
+- [handeye_calibration](https://github.com/HenryWJL/hand_eye_calibration)
 
 ### Step 2: Enable gripper
 ```bash
