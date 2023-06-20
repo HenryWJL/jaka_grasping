@@ -40,7 +40,7 @@ source devel_isolated/setup.bash
 
 ## Modification
 
-#### (1) Modify the following arguments in the `/visual_grasp/launch/gripper_init.launch`:
+#### (1) Modify the following arguments in the `/launch/gripper_init.launch`:
 ```launch
 <launch>
 	
@@ -52,7 +52,7 @@ source devel_isolated/setup.bash
     ...
 </launch>
 ```
-#### (2) Modify the following arguments in the `/visual_grasp/launch/object_detection_aruco.launch`: 
+#### (2) Modify the following arguments in the `/launch/object_detection_aruco.launch`: 
 ```launch
 <launch>
 
@@ -63,7 +63,7 @@ source devel_isolated/setup.bash
     ...
 </launch>
 ```
-#### (3) Modify the following arguments in the `/visual_grasp/launch/object_detection_apriltag.launch`:
+#### (3) Modify the following arguments in the `/launch/object_detection_apriltag.launch`:
 ```launch
 <launch>
 
@@ -75,7 +75,7 @@ source devel_isolated/setup.bash
     ...
 </launch>
 ```
-#### (4) Modify the parameters in the `/visual_grasp/config/tags.yaml` and `/visual_grasp/config/settings.yaml`:
+#### (4) Modify the parameters in the `/config/tags.yaml` and `/visual_grasp/config/settings.yaml`:
 ```yaml
 standalone_tags:
   [
@@ -101,24 +101,24 @@ transport_hint:    "raw"
 
 ### Step 2: Enable gripper
 ```bash
-roslaunch visual_grasp gripper_init.launch
+roslaunch jaka_grasping gripper_init.launch
 ```
 ### Step 3: Start object detection node
 There are two options for you. One is using **AprilTag**, the other is using **ArUco**. You need to paste an AprilTag marker or an ArUco marker on the object and modify the arguments in the relevant launch file (see **Modification**).
 
 - Using AprilTag
 ```bash
-roslaunch visual_grasp object_detection_apriltag.launch
+roslaunch jaka_grasping object_detection_apriltag.launch
 ```
 - Using ArUco
 ```bash
-roslaunch visual_grasp object_detection_aruco.launch
+roslaunch jaka_grasping object_detection_aruco.launch
 ```
 ### Step 4: Start object location node
 ```bash
-rosrun visual_grasp object_location.py
+rosrun jaka_grasping object_location.py
 ```
 ### Step 5: Start grasping
 ```bash
-rosrun visual_grasp jaka_grasp.py
+rosrun jaka_grasping jaka_grasp.py
 ```
