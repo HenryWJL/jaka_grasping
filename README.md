@@ -75,7 +75,7 @@ source devel_isolated/setup.bash
     ...
 </launch>
 ```
-#### (4) Modify the parameters in the `/config/tags.yaml` and `/visual_grasp/config/settings.yaml`:
+#### (4) Modify the parameters in the `/config/tags.yaml` and `/config/settings.yaml`:
 ```yaml
 standalone_tags:
   [
