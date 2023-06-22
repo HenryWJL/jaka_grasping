@@ -3,14 +3,14 @@ project(jaka_grasping)
 
 find_package(catkin REQUIRED COMPONENTS
   rospy
-  std_msgs
   geometry_msgs
+  dh_gripper_msgs	
   tf2_msgs
-  dh_gripper_msgs
-  tf
 )
 
-catkin_package()
+catkin_package(
+  CATKIN_DEPENDS rospy geometry_msgs dh_gripper_msgs tf2_msgs
+)
 
 include_directories(
   ${catkin_INCLUDE_DIRS}

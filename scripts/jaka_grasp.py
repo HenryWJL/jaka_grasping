@@ -12,20 +12,6 @@ from geometry_msgs.msg import TwistStamped
 from dh_gripper_msgs.msg import GripperCtrl
 from math import pi
 
-robot = jkrc.RC("192.168.200.100")  # Modify the robot ip to your own
-joint_start_pose = []  # the original joint position of the robot
-joint_target_pose = []  # the target joint position sightly above the object
-joint_place_pose = [4.64164575143487, 0.06362000542263152, -1.9055709465167618,   # the position where the
-                    3.217805620002092, 1.315274659966769, -3.968351295385847]     # robot places the object
-gripper_close = GripperCtrl()  # Control the gripper to close
-gripper_close.position = 0
-gripper_close.force = 25
-gripper_close.speed = 50
-gripper_open = GripperCtrl()  # Control the gripper to open
-gripper_open.position = 1000
-gripper_open.force = 25
-gripper_open.speed = 50
-
 
 def init(publisher, publish_rate):
     # Enable the robot and set the robot's starting pose
@@ -105,11 +91,28 @@ def grasp_and_place(publisher, publish_rate):
 
 
 if __name__ == '__main__':
+    robot = jkrc.RC("192.168.200.100")  # Modify the robot ip to your own
+    joint_start_pose = []  # the original joint position of the robot
+    joint_target_pose = []  # the target joint position sightly above the object
+    joint_place_pose = [4.64164575143487, 0.06362000542263152, -1.9055709465167618,  # the position where the
+                        3.217805620002092, 1.315274659966769, -3.968351295385847]  # robot places the object
+    gripper_close = GripperCtrl()  # Control the gripper to close
+    gripper_close.position = 0
+    gripper_close.force = 25
+    gripper_close.speed = 50
+    gripper_open = GripperCtrl()  # Control the gripper to open
+    gripper_open.position = 1000
+    gripper_open.force = 25
+    gripper_open.speed = 50
+
     rospy.init_node('jaka_grasp', anonymous=True)
     rospy.Subscriber('/object_pose', TwistStamped, callback, queue_size=10)
     pub = rospy.Publisher('/gripper/ctrl', GripperCtrl, queue_size=10)
     rate = rospy.Rate(5)
+
     init(pub, rate)
+    rospy.sleep(1)
+
     while not rospy.is_shutdown():
         try:
             print("Grasp: g, Exit: e")

@@ -14,8 +14,6 @@ import time
 from geometry_msgs.msg import TwistStamped
 from tf2_msgs.msg import TFMessage
 
-object2cam = None
-
 
 def callback(pose):
     global object2cam
@@ -40,6 +38,8 @@ def location_publisher():
     rospy.Subscriber('/tf', TFMessage, callback, queue_size=10)
     pub = rospy.Publisher('object_pose', TwistStamped, queue_size=10)
     rate = rospy.Rate(5)
+    rospy.sleep(1)
+
     while not rospy.is_shutdown():
         try:
             if cam2base is None:
@@ -74,4 +74,5 @@ def location_publisher():
 
 
 if __name__ == '__main__':
+    object2cam = None
     location_publisher()
