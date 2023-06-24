@@ -16,7 +16,10 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-catkin_install_python(PROGRAMS
-  scripts/object_location.py scripts/jaka_grasp.py
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+catkin_install_python(
+  PROGRAMS
+    scripts/object_location.py
+    scripts/jaka_grasp.py
+  DESTINATION
+    ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

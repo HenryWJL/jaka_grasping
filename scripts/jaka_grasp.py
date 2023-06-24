@@ -104,13 +104,14 @@ if __name__ == '__main__':
     gripper_open.position = 1000
     gripper_open.force = 25
     gripper_open.speed = 50
-
+    # initializing the ROS node
     rospy.init_node('jaka_grasp', anonymous=True)
     rospy.Subscriber('/object_pose', TwistStamped, callback, queue_size=10)
     pub = rospy.Publisher('/gripper/ctrl', GripperCtrl, queue_size=10)
     rate = rospy.Rate(5)
-
+    # initializing the robot and the gripper
     init(pub, rate)
+
     rospy.sleep(1)
 
     while not rospy.is_shutdown():
