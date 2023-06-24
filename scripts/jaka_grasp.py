@@ -13,32 +13,33 @@ from dh_gripper_msgs.msg import GripperCtrl
 from math import pi
 
 
-def init(publisher, publish_rate):
-    # Enable the robot and set the robot's starting pose
+def init():
     global joint_start_pose
+    # Starting the robot
     robot.login()
+    robot.power_on()
     robot.enable_robot()
-    robot.set_collision_level(1)  # Set the collision level to 1, which means the collision threshold force is 25N
+    # Set the collision level to 1, which means the collision threshold force is 25N
+    robot.set_collision_level(1)
+    robot.collision_recover()  # If any collision happened, recover the robot from the "collision protection" pattern
     rospy.loginfo("The robot is ready to move")
+    # Obtaining the robot's original joints poses
     ret = robot.get_joint_position()
-    # robot.collision_recover()
     if ret[0] == 0:
         joint_start_pose = ret[1]
 
     else:
-        rospy.logwarn("Failed to get the original pose!")
-    for idx in range(10):  # Keep the gripper open
-        publisher.publish(gripper_open)
-        publish_rate.sleep()
+        rospy.logwarn("Failed to obtain the original pose!")
+    # Keep the gripper open
+    gripper_control(close=False)
 
 
 def callback(pose):
-    # Set the target pose to what is published on the topic 'object_pose'
+    # Obtaining the target pose represented by the robot's joints poses
     global joint_target_pose
-    # Obtain the target pose w.r.t the Cartesian space
-    tcp_target_pose = [pose.twist.linear.x * 1000, pose.twist.linear.y * 1000, 130,
-                       3.140934315898051, 0.01111077693116226, 0.7647058015683122]  # here the unit of x, y, z is mm
-    ret = robot.kine_inverse(joint_start_pose, tcp_target_pose)  # Calculate the target pose w.r.t the joint space
+    cartesian_target_pose = [pose.twist.linear.x * 1000, pose.twist.linear.y * 1000, 130,
+                             3.140934315898051, 0.01111077693116226, 0.7647058015683122]
+    ret = robot.kine_inverse(joint_start_pose, cartesian_target_pose)
     if ret[0] == 0:
         joint_target_pose = ret[1]
 
@@ -47,24 +48,42 @@ def callback(pose):
         print("Failed to set the target pose!")
 
 
-def grasp_and_place(publisher, publish_rate):
-    # Perform the grasping and placing tasks
-    ret = robot.joint_move(joint_target_pose, 0, True, 2)  # Move to the target position
+def gripper_control(close=True):
+    # Controlling the gripper to open or close
+    pub = rospy.Publisher('/gripper/ctrl', GripperCtrl, queue_size=10)
+    rate = rospy.Rate(5)
+    gripper_ctrl = GripperCtrl()
+    gripper_ctrl.force = 25
+    gripper_ctrl.speed = 50
+    # Closing the gripper
+    if close:
+        gripper_ctrl.position = 0
+    # Opening the gripper
+    else:
+        gripper_ctrl.position = 1000
+
+    for idx in range(10):
+        pub.publish(gripper_ctrl)
+        rate.sleep()
+
+
+def grasp_and_place():
+    # Moving to the target pose
+    ret = robot.joint_move(joint_target_pose, 0, True, 2)
     time.sleep(1)
     if ret[0] == 0:
-        ret = robot.linear_move([0, 0, -20, 0, 0, 0], 1, True, 10)  # Move 20 mm down the z axis
+        # Moving 20 mm down the z axis
+        ret = robot.linear_move([0, 0, -20, 0, 0, 0], 1, True, 10)
         if ret[0] == 0:
-            for idx in range(10):  # grasp the object
-                publisher.publish(gripper_close)
-                publish_rate.sleep()
-            print("Successful grasp!")
-            ret = robot.joint_move(joint_place_pose, 0, True, 2)  # Move to the placing position
+            # grasping the object
+            gripper_control(close=True)
+            # Moving to the placing pose
+            ret = robot.joint_move(joint_place_pose, 0, True, 2)
             if ret[0] == 0:
-                for idx in range(10):  # place the object
-                    publisher.publish(gripper_open)
-                    publish_rate.sleep()
-                print("Successful place!")
-                ret = robot.joint_move(joint_start_pose, 0, True, 2)  # Back to the original position
+                # placing the object
+                gripper_control(close=False)
+                # Returning to the original pose
+                ret = robot.joint_move(joint_start_pose, 0, True, 2)
                 if ret[0] == 0:
                     rospy.loginfo("Back to the original position!")
                     return True
@@ -91,26 +110,17 @@ def grasp_and_place(publisher, publish_rate):
 
 
 if __name__ == '__main__':
-    robot = jkrc.RC("192.168.200.100")  # Modify the robot ip to your own
+    rospy.init_node('jaka_grasp', anonymous=True)
+    rospy.Subscriber('/object_pose', TwistStamped, callback, queue_size=10)
+    robot_ip = rospy.get_param("/robot_ip", default="192.168.200.100")
+    robot = jkrc.RC(robot_ip)
+    # Variables
     joint_start_pose = []  # the original joint position of the robot
     joint_target_pose = []  # the target joint position sightly above the object
     joint_place_pose = [4.64164575143487, 0.06362000542263152, -1.9055709465167618,  # the position where the
-                        3.217805620002092, 1.315274659966769, -3.968351295385847]  # robot places the object
-    gripper_close = GripperCtrl()  # Control the gripper to close
-    gripper_close.position = 0
-    gripper_close.force = 25
-    gripper_close.speed = 50
-    gripper_open = GripperCtrl()  # Control the gripper to open
-    gripper_open.position = 1000
-    gripper_open.force = 25
-    gripper_open.speed = 50
-    # initializing the ROS node
-    rospy.init_node('jaka_grasp', anonymous=True)
-    rospy.Subscriber('/object_pose', TwistStamped, callback, queue_size=10)
-    pub = rospy.Publisher('/gripper/ctrl', GripperCtrl, queue_size=10)
-    rate = rospy.Rate(5)
+                        3.217805620002092, 1.315274659966769, -3.968351295385847]    # robot places the object
     # initializing the robot and the gripper
-    init(pub, rate)
+    init()
 
     rospy.sleep(1)
 
@@ -124,18 +134,15 @@ if __name__ == '__main__':
                     print("No target position available!")
 
                 else:
-                    success = grasp_and_place(pub, rate)
+                    success = grasp_and_place()
                     if not success:
                         res = robot.is_in_collision()
                         collision_state = res[1]
                         if collision_state == 1:
-                            """
-                            If a collision happens, the JAKA robot will turn into the "collision protection" pattern
-                            and automatically lock itself. In this case, withdraw from the "collision protection"
-                            pattern and terminate the program.
-                            """
+                            # If a collision happened, the JAKA robot will turn into the "collision protection" pattern
+                            # and automatically lock itself. In this case, withdrawing from the "collision protection"
+                            # pattern and terminating the program.
                             robot.motion_abort()
-                            time.sleep(1)
                             robot.collision_recover()
                             robot.logout()
                             rospy.logerr("A collision happened, please restart the program!")
