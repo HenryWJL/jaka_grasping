@@ -11,8 +11,8 @@
         <remap from="camera_info" to="$(arg camera_info)" />
         <param name="publish_tag_detections_image" type="bool" value="$(arg publish_tag_image)" />
         <param name="queue_size" type="int" value="$(arg queue_size)" />
-        <rosparam command="load" file="$(find visual_grasp)/config/settings.yaml"/>
-        <rosparam command="load" file="$(find visual_grasp)/config/tags.yaml"/>
+        <rosparam command="load" file="$(find jaka_grasping)/config/settings.yaml"/>
+        <rosparam command="load" file="$(find jaka_grasping)/config/tags.yaml"/>
     </node> 
     
     <node pkg="image_view" type="image_view" name="image_view" respawn="false" output="screen">
