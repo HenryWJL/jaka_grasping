@@ -1,4 +1,4 @@
-# JAKA MiniCobo Based Robotic Grasping
+# Robotic Grasping With JAKA MiniCobo 
 
 These are the packages for performing vision-based robotic grasping using **Intel Realsense D455 camera**, **JAKA MiniCobo manipulator** and **DH-Robotics PGE-50-26 gripper**. Several other packages must be downloaded to support the functionality.
 
