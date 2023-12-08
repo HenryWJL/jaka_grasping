@@ -29,7 +29,7 @@ catkin_make
 source devel/setup.bash
 ```
 
-If you find something wrong with AprilTag ROS package when you run , run:
+If you find something wrong with AprilTag ROS package when you run `catkin_make`, try:
 ```bash
 catkin_make_isolated
 source devel_isolated/setup.bash
@@ -91,16 +91,16 @@ publish_tf:        true
 transport_hint:    "raw"
 ```
 
-## Usage Instructions
+## Usage
 
 ### Step 1: Hand-eye calibration
 - [handeye_calibration](https://github.com/HenryWJL/hand_eye_calibration)
 
-### Step 2: Enable gripper
+### Step 2: Enable the gripper
 ```bash
 roslaunch jaka_grasping gripper_init.launch
 ```
-### Step 3: Start object detection node
+### Step 3: Object detection
 There are two options for you. One is using **AprilTag**, the other is using **ArUco**. You need to paste an AprilTag marker or an ArUco marker on the object and modify the arguments in the relevant launch file (see **Modification**).
 
 - Using AprilTag
@@ -111,11 +111,11 @@ roslaunch jaka_grasping object_detection_apriltag.launch
 ```bash
 roslaunch jaka_grasping object_detection_aruco.launch
 ```
-### Step 4: Start object location node
+### Step 4: Object localization
 ```bash
 rosrun jaka_grasping object_location.py
 ```
-### Step 5: Start grasping
+### Step 5: Grasping and placing
 ```bash
 rosrun jaka_grasping jaka_grasp.py
 ```
