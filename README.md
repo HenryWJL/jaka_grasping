@@ -1,8 +1,8 @@
 # JAKA MiniCobo Based Robotic Grasping
 
-These are the packages for performing visual grasp based on **Intel Realsense D455 camera**, **JAKA MiniCobo robot** and **DH-Robotic PGE-50-26 gripper**. To fulfill the functions of this package, you need to install some extra packages and make some modifications to the launch files. Follow the instructions below to complete the grasping task. For more information, please see [here](https://github.com/HenryWJL/RGB-D_Camera_Based_Robotic_Grasping_Project).
+These are the packages for performing vision-based robotic grasping using **Intel Realsense D455 camera**, **JAKA MiniCobo manipulator** and **DH-Robotics PGE-50-26 gripper**. Several other packages must be downloaded to support the functionality.
 
-## Installation Instructions
+## Installation
 
 ### Step 1: Download Intel Realsense SDK and ROS package
 - [librealsense](https://github.com/IntelRealSense/librealsense)
@@ -11,28 +11,25 @@ These are the packages for performing visual grasp based on **Intel Realsense D4
 ### Step 2: Download JAKA MiniCobo ROS package
 - [jaka_ros](https://github.com/JAKARobotics/JAKA_ROS_Driver)
 
-### Step 3: Download DH-gripper ROS package
+### Step 3: Download DH-Robotics ROS package
 - [dh_gripper_ros](https://github.com/DH-Robotics/dh_gripper_ros)
 
 ### Step 4: Download ArUco ROS package 
 - [aruco_ros](https://github.com/pal-robotics/aruco_ros)
 
-### Step 5: Download Apriltag ROS package
+### Step 5: Download AprilTag ROS package
 - [apriltag_ros](https://github.com/AprilRobotics/apriltag_ros)
 
 ### Step 6: Clone this repository to your workspace
 ```bash
-cd ~/Your Worksapce/src
+cd ~/<Your Worksapce>/src
 git clone https://github.com/HenryWJL/jaka_grasping.git
-```
-
-### Step 7: Compile
-```bash
 cd ..
 catkin_make
 source devel/setup.bash
 ```
-If your workspace contains Apriltag packages, run:
+
+If you find something wrong with AprilTag ROS package when you run , run:
 ```bash
 catkin_make_isolated
 source devel_isolated/setup.bash
