@@ -100,22 +100,20 @@ transport_hint:    "raw"
 ```bash
 roslaunch jaka_grasping gripper_init.launch
 ```
-### Step 3: Object detection
-There are two options for you. One is using **AprilTag**, the other is using **ArUco**. You need to paste an AprilTag marker or an ArUco marker on the object and modify the arguments in the relevant launch file (see **Modification**).
+### Step 3: Object detection and localization
+There are two options for object detection: using **AprilTag** or **ArUco**. 
 
-- Using AprilTag
+- AprilTag
 ```bash
 roslaunch jaka_grasping object_detection_apriltag.launch
-```
-- Using ArUco
-```bash
-roslaunch jaka_grasping object_detection_aruco.launch
-```
-### Step 4: Object localization
-```bash
 rosrun jaka_grasping object_location.py
 ```
-### Step 5: Grasping and placing
+- ArUco
+```bash
+roslaunch jaka_grasping object_detection_aruco.launch
+rosrun jaka_grasping object_location.py
+```
+### Step 4: Grasp!
 ```bash
 rosrun jaka_grasping jaka_grasp.py
 ```
