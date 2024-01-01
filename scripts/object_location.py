@@ -31,7 +31,7 @@ def callback(poses):
 
 
 if __name__ == '__main__':
-    rospy.init_node('object_location_aruco', anonymous=True)
+    rospy.init_node('object_location', anonymous=True)
     rospy.Subscriber('/tf', TFMessage, callback, queue_size=10)
     pub = rospy.Publisher('/object_pose', TwistStamped, queue_size=10)
     rate = rospy.Rate(5)
