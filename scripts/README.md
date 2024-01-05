@@ -2,7 +2,7 @@
 Most of the codes in this package were not written by me, but instead, downloaded from the [JAKA website](https://www.jaka.com/index).
 My job was to modify the original codes and add some new codes in order to achieve the functionality of panel control.
 
-# Usage
+## Usage
 1. Move this package to your workspace and run:
 ```bash
 catkin_make
